@@ -2,6 +2,7 @@ from datetime import date
 from decimal import Decimal
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 from typing import Optional
@@ -164,7 +165,11 @@ async def confirmar_pedido(
     Confirma o pedido de orçamento → CONFIRMADO.
     Reserva automaticamente o estoque disponível para cada item.
     """
-    r = await db.execute(select(PedidoVenda).where(PedidoVenda.id == pedido_id))
+    r = await db.execute(
+        select(PedidoVenda)
+        .options(selectinload(PedidoVenda.itens))
+        .where(PedidoVenda.id == pedido_id)
+    )
     pedido = r.scalar_one_or_none()
     if not pedido:
         raise HTTPException(404, "Pedido não encontrado")

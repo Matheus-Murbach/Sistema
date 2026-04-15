@@ -12,6 +12,7 @@ from datetime import date
 from decimal import Decimal
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 from typing import Optional
@@ -171,7 +172,11 @@ async def registrar_retorno(
     - Dá entrada do produto beneficiado em DISPONIVEL
     - Registra perdas/rejeições
     """
-    r = await db.execute(select(LoteBeneficiamento).where(LoteBeneficiamento.id == lote_id))
+    r = await db.execute(
+        select(LoteBeneficiamento)
+        .options(selectinload(LoteBeneficiamento.itens))
+        .where(LoteBeneficiamento.id == lote_id)
+    )
     lote = r.scalar_one_or_none()
     if not lote:
         raise HTTPException(404, "Lote não encontrado")
