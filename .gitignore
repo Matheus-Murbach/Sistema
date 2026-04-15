@@ -33,5 +33,10 @@ backend/certificados/
 .idea/
 *.swp
 
+# Coverage
+.coverage
+coverage.xml
+htmlcov/
+
 # Logs
 *.log
