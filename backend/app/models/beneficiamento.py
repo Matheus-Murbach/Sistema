@@ -64,11 +64,15 @@ class ItemLoteBeneficiamento(Base):
 
     # Produto que saiu (bruto/semi-acabado)
     produto_enviado_id: Mapped[int] = mapped_column(ForeignKey("produtos.id"), nullable=False)
-    produto_enviado: Mapped["Produto"] = relationship(foreign_keys=[produto_enviado_id])  # type: ignore[name-defined]
+    produto_enviado: Mapped["Produto"] = relationship(  # type: ignore[name-defined]
+        "Produto", foreign_keys="[ItemLoteBeneficiamento.produto_enviado_id]"
+    )
 
     # Produto que volta (acabado/beneficiado) — pode ser o mesmo ou diferente
     produto_retorno_id: Mapped[int | None] = mapped_column(ForeignKey("produtos.id"))
-    produto_retorno: Mapped["Produto"] = relationship(foreign_keys=["produto_retorno_id"])  # type: ignore[name-defined]
+    produto_retorno: Mapped["Produto"] = relationship(  # type: ignore[name-defined]
+        "Produto", foreign_keys="[ItemLoteBeneficiamento.produto_retorno_id]"
+    )
 
     localizacao_saida_id: Mapped[int | None] = mapped_column(ForeignKey("localizacoes_estoque.id"))
     localizacao_retorno_id: Mapped[int | None] = mapped_column(ForeignKey("localizacoes_estoque.id"))
