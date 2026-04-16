@@ -11,7 +11,7 @@ Fluxo:
 from datetime import date
 from decimal import Decimal
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
@@ -100,9 +100,11 @@ async def criar_lote(
     from app.core.config import settings
     import datetime
 
-    # Gera número do lote
+    # Gera número do lote sequencial
     hoje = datetime.date.today()
-    numero = f"BNF-{hoje.strftime('%Y%m%d')}-{data.prestador_id}"
+    count_r = await db.execute(select(func.count()).select_from(LoteBeneficiamento))
+    seq = (count_r.scalar() or 0) + 1
+    numero = f"BNF-{hoje.strftime('%Y%m%d')}-{seq}"
 
     lote = LoteBeneficiamento(
         numero=numero,

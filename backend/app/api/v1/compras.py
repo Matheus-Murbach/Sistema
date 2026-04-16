@@ -1,7 +1,7 @@
 from datetime import date
 from decimal import Decimal
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 from typing import Optional
@@ -44,7 +44,9 @@ async def criar_pedido(
     db: AsyncSession = Depends(get_db),
     _=Depends(get_current_user),
 ):
-    numero = f"PC-{date.today().strftime('%Y%m%d')}-{data.fornecedor_id}"
+    count_r = await db.execute(select(func.count()).select_from(PedidoCompra))
+    seq = (count_r.scalar() or 0) + 1
+    numero = f"PC-{date.today().strftime('%Y%m%d')}-{seq}"
 
     pedido = PedidoCompra(
         numero=numero,
