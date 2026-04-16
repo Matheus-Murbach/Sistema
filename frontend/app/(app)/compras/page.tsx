@@ -77,7 +77,7 @@ export default function ComprasPage() {
   useEffect(() => { fetchPedidos(); }, [filtro]);
 
   useEffect(() => {
-    api.get("/fornecedores/", { params: { limit: 200 } }).then((r) => setFornecedores(r.data));
+    api.get("/parceiros/fornecedores/", { params: { limit: 200 } }).then((r) => setFornecedores(r.data));
     api.get("/produtos/", { params: { limit: 200 } }).then((r) => setProdutos(r.data));
   }, []);
 

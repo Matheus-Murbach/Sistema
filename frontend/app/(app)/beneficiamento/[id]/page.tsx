@@ -62,7 +62,7 @@ export default function DetalheLotePage() {
   useEffect(() => {
     api.get(`/beneficiamento/${id}`).then((r) => setLote(r.data));
     api.get("/produtos/", { params: { limit: 200 } }).then((r) => setProdutos(r.data));
-    api.get("/prestadores/", { params: { limit: 200 } }).then((r) => setPrestadores(r.data));
+    api.get("/parceiros/prestadores/", { params: { limit: 200 } }).then((r) => setPrestadores(r.data));
   }, [id]);
 
   function nomeProduto(pid: number) {

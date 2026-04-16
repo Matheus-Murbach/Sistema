@@ -45,6 +45,12 @@ class ProdutoUpdate(ProdutoCreate):
     unidade_id: Optional[int] = None
 
 
+@router.get("/unidades-medida")
+async def listar_unidades(db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(UnidadeMedida).order_by(UnidadeMedida.codigo))
+    return result.scalars().all()
+
+
 @router.get("/")
 async def listar_produtos(
     q: Optional[str] = Query(None, description="Busca por código, barras ou descrição"),

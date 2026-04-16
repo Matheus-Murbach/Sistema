@@ -36,7 +36,7 @@ export default function NovoVendaPage() {
   const [erro, setErro] = useState("");
 
   useEffect(() => {
-    api.get("/clientes/", { params: { limit: 200 } }).then((r) => setClientes(r.data));
+    api.get("/parceiros/clientes/", { params: { limit: 200 } }).then((r) => setClientes(r.data));
     api.get("/produtos/", { params: { limit: 200 } }).then((r) => setProdutos(r.data));
   }, []);
 

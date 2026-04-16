@@ -80,7 +80,7 @@ export default function RecebimentoPage() {
 
   useEffect(() => {
     fetchNotas();
-    api.get("/fornecedores/", { params: { limit: 200 } }).then((r) => setFornecedores(r.data));
+    api.get("/parceiros/fornecedores/", { params: { limit: 200 } }).then((r) => setFornecedores(r.data));
     api.get("/produtos/", { params: { limit: 200 } }).then((r) => setProdutos(r.data));
     api.get("/estoque/localizacoes").then((r) => setLocalizacoes(r.data)).catch(() => {});
   }, []);

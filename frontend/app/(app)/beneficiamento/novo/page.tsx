@@ -44,7 +44,7 @@ export default function NovoBeneficiamentoPage() {
   const [erro, setErro] = useState("");
 
   useEffect(() => {
-    api.get("/prestadores/", { params: { limit: 200 } }).then((r) => setPrestadores(r.data));
+    api.get("/parceiros/prestadores/", { params: { limit: 200 } }).then((r) => setPrestadores(r.data));
     api.get("/produtos/", { params: { limit: 200 } }).then((r) => setProdutos(r.data));
     api.get("/estoque/localizacoes").then((r) => setLocalizacoes(r.data)).catch(() => {});
   }, []);

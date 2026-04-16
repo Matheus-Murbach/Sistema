@@ -71,8 +71,10 @@ async def criar_pedido(
     db: AsyncSession = Depends(get_db),
     current_user=Depends(get_current_user),
 ):
-    from datetime import datetime
-    numero = f"PV-{date.today().strftime('%Y%m%d')}-{data.cliente_id}"
+    from sqlalchemy import func
+    count_r = await db.execute(select(func.count()).select_from(PedidoVenda))
+    seq = (count_r.scalar() or 0) + 1
+    numero = f"PV-{date.today().strftime('%Y%m%d')}-{seq}"
 
     # Busca cliente para dados fiscais
     r = await db.execute(select(Cliente).where(Cliente.id == data.cliente_id))

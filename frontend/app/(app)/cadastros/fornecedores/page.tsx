@@ -38,7 +38,7 @@ export default function FornecedoresPage() {
   const [erro, setErro] = useState("");
 
   const fetchFornecedores = () => {
-    api.get("/fornecedores/", { params: { q: busca || undefined, limit: 100 } })
+    api.get("/parceiros/fornecedores/", { params: { q: busca || undefined, limit: 100 } })
       .then((r) => setFornecedores(r.data));
   };
 
@@ -77,9 +77,9 @@ export default function FornecedoresPage() {
     try {
       const payload = { ...form, prazo_entrega_dias: Number(form.prazo_entrega_dias) };
       if (editId) {
-        await api.put(`/fornecedores/${editId}`, payload);
+        await api.put(`/parceiros/fornecedores/${editId}`, payload);
       } else {
-        await api.post("/fornecedores/", payload);
+        await api.post("/parceiros/fornecedores/", payload);
       }
       setShowModal(false);
       fetchFornecedores();

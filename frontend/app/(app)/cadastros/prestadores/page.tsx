@@ -41,7 +41,7 @@ export default function PrestadoresPage() {
   const [erro, setErro] = useState("");
 
   const fetchPrestadores = () => {
-    api.get("/prestadores/", { params: { q: busca || undefined, limit: 100 } })
+    api.get("/parceiros/prestadores/", { params: { q: busca || undefined, limit: 100 } })
       .then((r) => setPrestadores(r.data));
   };
 
@@ -85,9 +85,9 @@ export default function PrestadoresPage() {
         percentual_perda_esperado: parseFloat(form.percentual_perda_esperado),
       };
       if (editId) {
-        await api.put(`/prestadores/${editId}`, payload);
+        await api.put(`/parceiros/prestadores/${editId}`, payload);
       } else {
-        await api.post("/prestadores/", payload);
+        await api.post("/parceiros/prestadores/", payload);
       }
       setShowModal(false);
       fetchPrestadores();

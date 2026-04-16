@@ -17,7 +17,7 @@ interface Produto {
 
 interface UnidadeMedida {
   id: number;
-  sigla: string;
+  codigo: string;
   descricao: string;
 }
 
@@ -75,7 +75,7 @@ export default function ProdutosPage() {
 
   useEffect(() => {
     fetchProdutos();
-    api.get("/estoque/unidades-medida").then((r) => setUnidades(r.data)).catch(() => {});
+    api.get("/produtos/unidades-medida").then((r) => setUnidades(r.data)).catch(() => {});
   }, [busca]);
 
   function openNovo() {
@@ -247,7 +247,7 @@ export default function ProdutosPage() {
                     onChange={(e) => setForm({ ...form, unidade_id: e.target.value })}>
                     <option value="">Selecione...</option>
                     {unidades.map((u) => (
-                      <option key={u.id} value={u.id}>{u.sigla} — {u.descricao}</option>
+                      <option key={u.id} value={u.id}>{u.codigo} — {u.descricao}</option>
                     ))}
                     {unidades.length === 0 && <option value="1">UN — Unidade</option>}
                   </select>

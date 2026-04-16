@@ -53,7 +53,7 @@ export default function VendasPage() {
   useEffect(() => { fetchPedidos(); }, [filtro]);
 
   useEffect(() => {
-    api.get("/clientes/", { params: { limit: 200 } }).then((r) => setClientes(r.data));
+    api.get("/parceiros/clientes/", { params: { limit: 200 } }).then((r) => setClientes(r.data));
   }, []);
 
   function nomeCliente(id: number) {

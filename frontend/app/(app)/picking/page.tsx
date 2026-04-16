@@ -37,7 +37,7 @@ export default function PickingLandingPage() {
       // EM_PICKING first (in progress), then CONFIRMADO (waiting)
       setPedidos([...r2.data, ...r1.data]);
     });
-    api.get("/clientes/", { params: { limit: 200 } }).then((r) => setClientes(r.data));
+    api.get("/parceiros/clientes/", { params: { limit: 200 } }).then((r) => setClientes(r.data));
   }, []);
 
   function nomeCliente(id: number) {

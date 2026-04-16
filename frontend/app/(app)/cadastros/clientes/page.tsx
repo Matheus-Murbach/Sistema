@@ -39,7 +39,7 @@ export default function ClientesPage() {
   const [erro, setErro] = useState("");
 
   const fetchClientes = () => {
-    api.get("/clientes/", { params: { q: busca || undefined, limit: 100 } })
+    api.get("/parceiros/clientes/", { params: { q: busca || undefined, limit: 100 } })
       .then((r) => setClientes(r.data));
   };
 
@@ -81,9 +81,9 @@ export default function ClientesPage() {
         consumidor_final: form.consumidor_final === "true",
       };
       if (editId) {
-        await api.put(`/clientes/${editId}`, payload);
+        await api.put(`/parceiros/clientes/${editId}`, payload);
       } else {
-        await api.post("/clientes/", payload);
+        await api.post("/parceiros/clientes/", payload);
       }
       setShowModal(false);
       fetchClientes();
