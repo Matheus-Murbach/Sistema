@@ -1,0 +1,43 @@
+# Env
+.env
+.env.local
+.env.*.local
+*.pfx
+*.p12
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# Node
+node_modules/
+.next/
+out/
+.npm
+
+# Docker volumes
+postgres_data/
+
+# Certificados digitais
+backend/certificados/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Coverage
+.coverage
+coverage.xml
+htmlcov/
+
+# Logs
+*.log
+frontend/tsconfig.tsbuildinfo
