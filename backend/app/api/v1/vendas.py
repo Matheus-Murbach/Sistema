@@ -58,7 +58,11 @@ async def listar_pedidos(
 
 @router.get("/{pedido_id}")
 async def detalhar_pedido(pedido_id: int, db: AsyncSession = Depends(get_db)):
-    r = await db.execute(select(PedidoVenda).where(PedidoVenda.id == pedido_id))
+    r = await db.execute(
+        select(PedidoVenda)
+        .options(selectinload(PedidoVenda.itens))
+        .where(PedidoVenda.id == pedido_id)
+    )
     pedido = r.scalar_one_or_none()
     if not pedido:
         raise HTTPException(404, "Pedido não encontrado")
