@@ -40,3 +40,4 @@ htmlcov/
 
 # Logs
 *.log
+frontend/tsconfig.tsbuildinfo
