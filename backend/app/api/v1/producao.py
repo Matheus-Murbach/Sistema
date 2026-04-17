@@ -187,7 +187,9 @@ async def criar_op(
     current_user=Depends(get_current_user),
 ):
     from datetime import date
-    numero = f"OP-{date.today().strftime('%Y%m%d')}-{data.produto_id}"
+    count_r = await db.execute(select(func.count()).select_from(OrdemProducao))
+    seq = (count_r.scalar() or 0) + 1
+    numero = f"OP-{date.today().strftime('%Y%m%d')}-{seq}"
 
     op = OrdemProducao(
         numero=numero,
