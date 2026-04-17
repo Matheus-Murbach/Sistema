@@ -67,6 +67,33 @@ async def iniciar_picking(
     return conferencia
 
 
+@router.post("/{pedido_id}/concluir")
+async def concluir_picking(
+    pedido_id: int,
+    db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    """Marca a separação como concluída manualmente → pedido vira PICKING_OK."""
+    r = await db.execute(select(PedidoVenda).where(PedidoVenda.id == pedido_id))
+    pedido = r.scalar_one_or_none()
+    if not pedido:
+        raise HTTPException(404, "Pedido não encontrado")
+    if pedido.status not in ("EM_PICKING", "CONFIRMADO"):
+        raise HTTPException(422, f"Pedido no status '{pedido.status}' não pode ser concluído")
+
+    r2 = await db.execute(
+        select(ConferencePicking).where(ConferencePicking.pedido_venda_id == pedido_id)
+    )
+    conf = r2.scalar_one_or_none()
+    if conf and conf.status != "CONCLUIDO":
+        conf.status = "CONCLUIDO"
+        conf.data_conclusao = datetime.now(timezone.utc)
+
+    pedido.status = "PICKING_OK"
+    await db.commit()
+    return {"pedido_id": pedido.id, "status": "PICKING_OK"}
+
+
 @router.get("/{conferencia_id}")
 async def detalhar_conferencia(conferencia_id: int, db: AsyncSession = Depends(get_db)):
     r = await db.execute(select(ConferencePicking).where(ConferencePicking.id == conferencia_id))

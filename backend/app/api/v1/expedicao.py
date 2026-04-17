@@ -43,6 +43,77 @@ async def listar_nfs_saida(
     return r.scalars().all()
 
 
+@router.get("/{pedido_id}/preview")
+async def preview_fiscal(pedido_id: int, db: AsyncSession = Depends(get_db), _=Depends(get_current_user)):
+    """Retorna o breakdown fiscal por item sem emitir a NF-e."""
+    r = await db.execute(select(PedidoVenda).where(PedidoVenda.id == pedido_id))
+    pedido = r.scalar_one_or_none()
+    if not pedido:
+        raise HTTPException(404, "Pedido não encontrado")
+
+    r2 = await db.execute(select(Cliente).where(Cliente.id == pedido.cliente_id))
+    cliente = r2.scalar_one_or_none()
+
+    r3 = await db.execute(select(ItemPedidoVenda).where(ItemPedidoVenda.pedido_id == pedido_id))
+    itens_pv = r3.scalars().all()
+
+    itens_preview = []
+    totais = {"produtos": 0.0, "icms": 0.0, "ipi": 0.0, "pis": 0.0, "cofins": 0.0, "st": 0.0, "difal": 0.0}
+
+    for item in itens_pv:
+        r4 = await db.execute(select(Produto).where(Produto.id == item.produto_id))
+        produto = r4.scalar_one_or_none()
+
+        impostos = calcular_impostos_saida(
+            valor_produto=item.valor_total,
+            aliq_icms=produto.aliq_icms,
+            aliq_ipi=produto.aliq_ipi,
+            aliq_pis=produto.aliq_pis,
+            aliq_cofins=produto.aliq_cofins,
+            mva=produto.mva,
+            uf_destino=cliente.uf or settings.EMPRESA_UF,
+            consumidor_final=cliente.consumidor_final,
+            crt_empresa=settings.EMPRESA_CRT,
+            cst_icms=produto.cst_icms or "00",
+            csosn=produto.csosn,
+            cst_ipi=produto.cst_ipi or "99",
+            cst_pis=produto.cst_pis or "01",
+            cst_cofins=produto.cst_cofins or "01",
+        )
+
+        itens_preview.append({
+            "produto_id": produto.id,
+            "codigo": produto.codigo,
+            "descricao": produto.descricao,
+            "quantidade": float(item.quantidade),
+            "preco_unitario": float(item.preco_unitario),
+            "valor_bruto": float(item.valor_total),
+            "cfop": impostos.cfop,
+            "aliq_icms": float(impostos.aliq_icms),
+            "valor_icms": float(impostos.valor_icms),
+            "aliq_ipi": float(impostos.aliq_ipi),
+            "valor_ipi": float(impostos.valor_ipi),
+            "aliq_pis": float(impostos.aliq_pis),
+            "valor_pis": float(impostos.valor_pis),
+            "aliq_cofins": float(impostos.aliq_cofins),
+            "valor_cofins": float(impostos.valor_cofins),
+            "valor_icms_st": float(impostos.valor_icms_st),
+            "valor_difal": float(impostos.valor_difal),
+        })
+
+        totais["produtos"] += float(item.valor_total)
+        totais["icms"] += float(impostos.valor_icms)
+        totais["ipi"] += float(impostos.valor_ipi)
+        totais["pis"] += float(impostos.valor_pis)
+        totais["cofins"] += float(impostos.valor_cofins)
+        totais["st"] += float(impostos.valor_icms_st)
+        totais["difal"] += float(impostos.valor_difal)
+
+    totais["total_nf"] = totais["produtos"] + float(pedido.valor_frete) + totais["ipi"]
+
+    return {"pedido_id": pedido_id, "numero": pedido.numero, "itens": itens_preview, "totais": totais}
+
+
 @router.post("/{pedido_id}/emitir", status_code=201)
 async def emitir_nfe_saida(
     pedido_id: int,
@@ -202,6 +273,39 @@ async def emitir_nfe_saida(
             "difal": float(total_difal),
         },
     }
+
+
+class ExpedirSchema(BaseModel):
+    transportadora: Optional[str] = None
+    numero_nf: Optional[str] = None
+    observacoes: Optional[str] = None
+
+
+@router.post("/{pedido_id}/expedir", status_code=200)
+async def expedir_pedido(
+    pedido_id: int,
+    data: ExpedirSchema,
+    db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    """Expede o pedido sem emitir NF-e via SEFAZ. Baixa o estoque e marca como EXPEDIDO."""
+    r = await db.execute(select(PedidoVenda).where(PedidoVenda.id == pedido_id))
+    pedido = r.scalar_one_or_none()
+    if not pedido:
+        raise HTTPException(404, "Pedido não encontrado")
+    if pedido.status not in ("PICKING_OK", "CONFIRMADO"):
+        raise HTTPException(422, f"Pedido no status '{pedido.status}' não pode ser expedido")
+
+    await liberar_reserva(db, pedido_id, consumir=True)
+
+    if data.transportadora:
+        pedido.transportadora = data.transportadora
+    if data.observacoes:
+        pedido.observacoes = (pedido.observacoes or "") + f"\nExpedição: {data.observacoes}"
+
+    pedido.status = "EXPEDIDO"
+    await db.commit()
+    return {"pedido_id": pedido.id, "numero": pedido.numero, "status": "EXPEDIDO"}
 
 
 @router.get("/{nf_id}/status")

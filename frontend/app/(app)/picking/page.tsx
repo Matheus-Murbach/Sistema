@@ -1,164 +1,189 @@
 "use client";
 import { useEffect, useState } from "react";
 import api from "@/lib/api";
-import { ClipboardCheck, ArrowRight } from "lucide-react";
+import { Play, CheckCircle2, Clock, Package } from "lucide-react";
 
-interface PedidoVenda {
-  id: number;
-  numero: string;
-  cliente_id: number;
-  status: string;
-  valor_total: number;
-  data_emissao: string;
-  data_previsao_entrega: string | null;
+interface Pedido {
+  id: number; numero: string; cliente_id: number; status: string;
+  valor_total: number; criado_em: string;
+  itens?: { produto_id: number; quantidade: number; }[];
 }
-
 interface Cliente { id: number; razao_social: string; }
 
-const STATUS_BADGE: Record<string, string> = {
-  CONFIRMADO: "badge-blue",
-  EM_PICKING: "badge-yellow",
-};
+export default function PickingPage() {
+  const [paraIniciar, setParaIniciar] = useState<Pedido[]>([]);
+  const [emAndamento, setEmAndamento] = useState<Pedido[]>([]);
+  const [prontos, setProntos] = useState<Pedido[]>([]);
+  const [clientes, setClientes] = useState<Record<number, string>>({});
+  const [loading, setLoading] = useState(true);
+  const [processando, setProcessando] = useState<number | null>(null);
+  const [erro, setErro] = useState("");
 
-const STATUS_LABEL: Record<string, string> = {
-  CONFIRMADO: "Aguardando Picking",
-  EM_PICKING: "Em Picking",
-};
-
-export default function PickingLandingPage() {
-  const [pedidos, setPedidos] = useState<PedidoVenda[]>([]);
-  const [clientes, setClientes] = useState<Cliente[]>([]);
-
-  useEffect(() => {
-    Promise.all([
-      api.get("/vendas/", { params: { status: "CONFIRMADO", limit: 50 } }),
-      api.get("/vendas/", { params: { status: "EM_PICKING", limit: 50 } }),
-    ]).then(([r1, r2]) => {
-      // EM_PICKING first (in progress), then CONFIRMADO (waiting)
-      setPedidos([...r2.data, ...r1.data]);
-    });
-    api.get("/parceiros/clientes/", { params: { limit: 200 } }).then((r) => setClientes(r.data));
-  }, []);
-
-  function nomeCliente(id: number) {
-    return clientes.find((c) => c.id === id)?.razao_social || `Cliente #${id}`;
+  async function carregar() {
+    setLoading(true);
+    try {
+      const [r1, r2, r3, rc] = await Promise.all([
+        api.get("/vendas/", { params: { status: "CONFIRMADO", limit: 50 } }),
+        api.get("/vendas/", { params: { status: "EM_PICKING", limit: 50 } }),
+        api.get("/vendas/", { params: { status: "PICKING_OK", limit: 50 } }),
+        api.get("/parceiros/clientes/", { params: { limit: 200 } }),
+      ]);
+      setParaIniciar(r1.data);
+      setEmAndamento(r2.data);
+      setProntos(r3.data);
+      const mapa: Record<number, string> = {};
+      for (const c of rc.data as Cliente[]) mapa[c.id] = c.razao_social;
+      setClientes(mapa);
+    } finally {
+      setLoading(false);
+    }
   }
 
-  const moeda = (v: number) =>
-    new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
+  useEffect(() => { carregar(); }, []);
 
-  const emPicking = pedidos.filter((p) => p.status === "EM_PICKING");
-  const aguardando = pedidos.filter((p) => p.status === "CONFIRMADO");
+  async function iniciarPicking(pedidoId: number) {
+    setProcessando(pedidoId); setErro("");
+    try {
+      await api.post(`/picking/${pedidoId}/iniciar`);
+      await carregar();
+    } catch (err: any) {
+      setErro(err?.response?.data?.detail || "Erro ao iniciar picking");
+    } finally {
+      setProcessando(null);
+    }
+  }
+
+  async function concluirPicking(pedidoId: number) {
+    setProcessando(pedidoId); setErro("");
+    try {
+      await api.post(`/picking/${pedidoId}/concluir`);
+      await carregar();
+    } catch (err: any) {
+      setErro(err?.response?.data?.detail || "Erro ao concluir picking");
+    } finally {
+      setProcessando(null);
+    }
+  }
+
+  const moeda = (v: number) => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
+
+  const CardPedido = ({ pedido, acao }: { pedido: Pedido; acao?: React.ReactNode }) => (
+    <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-white hover:bg-gray-50">
+      <div>
+        <span className="font-mono text-sm font-semibold text-gray-800">{pedido.numero}</span>
+        <span className="text-gray-500 text-sm ml-3">{clientes[pedido.cliente_id] || "—"}</span>
+      </div>
+      <div className="flex items-center gap-3">
+        <span className="text-gray-600 text-sm font-medium">{moeda(pedido.valor_total)}</span>
+        <span className="text-xs text-gray-400">{new Date(pedido.criado_em).toLocaleDateString("pt-BR")}</span>
+        {acao}
+      </div>
+    </div>
+  );
+
+  if (loading) return <p className="text-gray-400 p-6">Carregando...</p>;
 
   return (
-    <div>
+    <div className="max-w-3xl">
       <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold">Picking</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Selecione um pedido para iniciar ou continuar a separação.
-          </p>
+        <h1 className="text-2xl font-bold">Separação de Pedidos</h1>
+        <button onClick={carregar} className="btn-secondary text-sm">Atualizar</button>
+      </div>
+
+      {erro && <p className="text-sm text-red-600 bg-red-50 p-3 rounded mb-4">{erro}</p>}
+
+      {/* Para Iniciar */}
+      <div className="mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Clock size={16} className="text-blue-500" />
+          <h2 className="font-semibold text-gray-700">Para Iniciar</h2>
+          {paraIniciar.length > 0 && (
+            <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-full">{paraIniciar.length}</span>
+          )}
         </div>
-        {emPicking.length > 0 && (
-          <span className="badge-yellow">{emPicking.length} em andamento</span>
+        {paraIniciar.length === 0 ? (
+          <p className="text-sm text-gray-400 pl-6">Nenhum pedido aguardando separação.</p>
+        ) : (
+          <div className="space-y-2">
+            {paraIniciar.map(p => (
+              <CardPedido key={p.id} pedido={p} acao={
+                <button
+                  onClick={() => iniciarPicking(p.id)}
+                  disabled={processando === p.id}
+                  className="btn-primary text-xs flex items-center gap-1 py-1.5"
+                >
+                  <Play size={12} /> {processando === p.id ? "..." : "Iniciar"}
+                </button>
+              } />
+            ))}
+          </div>
         )}
       </div>
 
-      {pedidos.length === 0 && (
-        <div className="card p-12 text-center">
-          <ClipboardCheck size={40} className="text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-400 font-medium">Nenhum pedido aguardando picking</p>
-          <p className="text-sm text-gray-400 mt-1">
-            Confirme um pedido em{" "}
-            <a href="/vendas" className="text-blue-600 hover:underline">Vendas</a>{" "}
-            para que ele apareça aqui.
-          </p>
+      {/* Em Andamento */}
+      <div className="mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Package size={16} className="text-yellow-500" />
+          <h2 className="font-semibold text-gray-700">Em Andamento</h2>
+          {emAndamento.length > 0 && (
+            <span className="bg-yellow-100 text-yellow-700 text-xs font-bold px-2 py-0.5 rounded-full">{emAndamento.length}</span>
+          )}
         </div>
-      )}
-
-      {emPicking.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
-            Em Andamento
-          </h2>
+        {emAndamento.length === 0 ? (
+          <p className="text-sm text-gray-400 pl-6">Nenhum pedido em separação.</p>
+        ) : (
           <div className="space-y-2">
-            {emPicking.map((p) => (
-              <a
-                key={p.id}
-                href={`/picking/${p.id}`}
-                className="card p-4 flex items-center gap-4 hover:shadow-md transition-shadow cursor-pointer border-l-4 border-yellow-400"
-              >
-                <ClipboardCheck size={20} className="text-yellow-500 flex-shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs font-bold text-gray-700">{p.numero}</span>
-                    <span className={STATUS_BADGE[p.status]}>{STATUS_LABEL[p.status]}</span>
-                  </div>
-                  <p className="text-sm text-gray-600 mt-0.5 truncate">{nomeCliente(p.cliente_id)}</p>
+            {emAndamento.map(p => (
+              <div key={p.id} className="border border-yellow-200 bg-yellow-50 rounded-lg p-3 flex items-center justify-between">
+                <div>
+                  <span className="font-mono text-sm font-semibold text-gray-800">{p.numero}</span>
+                  <span className="text-gray-500 text-sm ml-3">{clientes[p.cliente_id] || "—"}</span>
                 </div>
-                <div className="text-right flex-shrink-0">
-                  <p className="font-medium text-gray-900">{moeda(Number(p.valor_total))}</p>
-                  {p.data_previsao_entrega && (
-                    <p className="text-xs text-gray-400 mt-0.5">
-                      Entrega: {new Date(p.data_previsao_entrega).toLocaleDateString("pt-BR")}
-                    </p>
-                  )}
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-600 text-sm font-medium">{moeda(p.valor_total)}</span>
+                  <button
+                    onClick={() => concluirPicking(p.id)}
+                    disabled={processando === p.id}
+                    className="text-xs px-3 py-1.5 rounded-md bg-green-600 text-white hover:bg-green-700 flex items-center gap-1"
+                  >
+                    <CheckCircle2 size={12} /> {processando === p.id ? "..." : "Concluir"}
+                  </button>
                 </div>
-                <ArrowRight size={16} className="text-gray-400 flex-shrink-0" />
-              </a>
+              </div>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {aguardando.length > 0 && (
-        <div>
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
-            Aguardando Separação
-          </h2>
-          <div className="card overflow-hidden">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b">
-                <tr>
-                  <th className="text-left p-3 font-medium text-gray-600">Pedido</th>
-                  <th className="text-left p-3 font-medium text-gray-600">Cliente</th>
-                  <th className="text-left p-3 font-medium text-gray-600">Emissão</th>
-                  <th className="text-left p-3 font-medium text-gray-600">Entrega</th>
-                  <th className="text-right p-3 font-medium text-gray-600">Total</th>
-                  <th className="p-3"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {aguardando.map((p) => (
-                  <tr key={p.id} className="border-b last:border-0 hover:bg-gray-50">
-                    <td className="p-3 font-mono text-xs font-bold">{p.numero}</td>
-                    <td className="p-3">{nomeCliente(p.cliente_id)}</td>
-                    <td className="p-3 text-gray-500">
-                      {new Date(p.data_emissao).toLocaleDateString("pt-BR")}
-                    </td>
-                    <td className="p-3 text-gray-500">
-                      {p.data_previsao_entrega
-                        ? new Date(p.data_previsao_entrega).toLocaleDateString("pt-BR")
-                        : "—"}
-                    </td>
-                    <td className="p-3 text-right font-medium">
-                      {moeda(Number(p.valor_total))}
-                    </td>
-                    <td className="p-3 text-right">
-                      <a
-                        href={`/picking/${p.id}`}
-                        className="btn-primary text-xs py-1 px-3 inline-flex items-center gap-1"
-                      >
-                        <ClipboardCheck size={12} /> Iniciar
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+      {/* Prontos na Fábrica */}
+      <div>
+        <div className="flex items-center gap-2 mb-3">
+          <CheckCircle2 size={16} className="text-green-500" />
+          <h2 className="font-semibold text-gray-700">Prontos / Na Fábrica</h2>
+          {prontos.length > 0 && (
+            <span className="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded-full">{prontos.length}</span>
+          )}
         </div>
-      )}
+        {prontos.length === 0 ? (
+          <p className="text-sm text-gray-400 pl-6">Nenhum pedido aguardando expedição.</p>
+        ) : (
+          <div className="space-y-2">
+            {prontos.map(p => (
+              <div key={p.id} className="border border-green-200 bg-green-50 rounded-lg p-3 flex items-center justify-between">
+                <div>
+                  <span className="font-mono text-sm font-semibold text-gray-800">{p.numero}</span>
+                  <span className="text-gray-500 text-sm ml-3">{clientes[p.cliente_id] || "—"}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-600 text-sm font-medium">{moeda(p.valor_total)}</span>
+                  <span className="text-xs text-green-700 bg-green-100 px-2 py-0.5 rounded-full font-medium">Aguardando expedição</span>
+                  <a href="/expedicao" className="text-xs text-blue-600 hover:underline">Expedir →</a>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -9,7 +9,7 @@ Fluxo de alta rotatividade:
 from datetime import datetime, timezone
 from decimal import Decimal
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 from typing import Optional
@@ -66,6 +66,109 @@ async def listar_ops(
     stmt = stmt.offset(skip).limit(limit)
     r = await db.execute(stmt)
     return r.scalars().all()
+
+
+class ConversaoRapidaSchema(BaseModel):
+    produto_mp_id: int
+    localizacao_mp_id: Optional[int] = None
+    quantidade_mp: Decimal
+    produto_pa_id: int
+    localizacao_pa_id: Optional[int] = None
+    quantidade_pa: Decimal
+    observacao: Optional[str] = None
+
+
+@router.post("/conversao-rapida", status_code=201)
+async def conversao_rapida(
+    data: ConversaoRapidaSchema,
+    db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    """
+    Conversão instantânea MP → PA.
+    Consome a MP e registra o PA no estoque em uma única operação.
+    """
+    from app.models.estoque import SaldoEstoque
+    from datetime import date
+
+    # Resolve localização da MP: usa a informada ou a 1ª disponível
+    loc_mp = data.localizacao_mp_id
+    if not loc_mp:
+        r = await db.execute(
+            select(SaldoEstoque).where(
+                SaldoEstoque.produto_id == data.produto_mp_id,
+                SaldoEstoque.status == "DISPONIVEL",
+                SaldoEstoque.quantidade >= data.quantidade_mp,
+            ).limit(1)
+        )
+        s = r.scalar_one_or_none()
+        if not s:
+            raise HTTPException(422, "Estoque insuficiente de matéria-prima")
+        loc_mp = s.localizacao_id
+
+    # Resolve localização do PA: usa a informada ou a mesma da MP
+    loc_pa = data.localizacao_pa_id or loc_mp
+
+    # Gera número único da OP
+    count_r = await db.execute(select(func.count()).select_from(OrdemProducao))
+    seq = (count_r.scalar() or 0) + 1
+    numero = f"OP-{date.today().strftime('%Y%m%d')}-{seq}"
+
+    # Cria OP já concluída para rastreabilidade
+    op = OrdemProducao(
+        numero=numero,
+        produto_id=data.produto_pa_id,
+        quantidade_planejada=data.quantidade_pa,
+        quantidade_produzida=data.quantidade_pa,
+        quantidade_refugo=Decimal("0"),
+        localizacao_saida_id=loc_pa,
+        status="CONCLUIDA",
+        data_inicio=datetime.now(timezone.utc),
+        data_conclusao=datetime.now(timezone.utc),
+        observacoes=data.observacao,
+    )
+    op.itens.append(ItemOrdemProducao(
+        produto_id=data.produto_mp_id,
+        quantidade_necessaria=data.quantidade_mp,
+        quantidade_consumida=data.quantidade_mp,
+    ))
+    db.add(op)
+    await db.flush()
+
+    # Consome MP
+    await movimentar(
+        db, data.produto_mp_id, loc_mp,
+        tipo="SAIDA_PRODUCAO",
+        quantidade=-data.quantidade_mp,
+        status_estoque="DISPONIVEL",
+        documento_tipo="ORDEM_PRODUCAO",
+        documento_id=op.id,
+        documento_numero=op.numero,
+        usuario_id=current_user.id,
+        observacao=data.observacao,
+    )
+
+    # Entrada do PA
+    await movimentar(
+        db, data.produto_pa_id, loc_pa,
+        tipo="ENTRADA_PRODUCAO",
+        quantidade=data.quantidade_pa,
+        status_estoque="DISPONIVEL",
+        documento_tipo="ORDEM_PRODUCAO",
+        documento_id=op.id,
+        documento_numero=op.numero,
+        usuario_id=current_user.id,
+        observacao=data.observacao,
+    )
+
+    await db.commit()
+    return {
+        "op_numero": op.numero,
+        "produto_mp_id": data.produto_mp_id,
+        "quantidade_mp_consumida": float(data.quantidade_mp),
+        "produto_pa_id": data.produto_pa_id,
+        "quantidade_pa_produzida": float(data.quantidade_pa),
+    }
 
 
 @router.get("/{op_id}")

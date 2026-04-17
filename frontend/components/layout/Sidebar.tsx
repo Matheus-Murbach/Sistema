@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Package, Truck, Wrench, BarChart3, ShoppingCart,
-  ClipboardCheck, Send, Users, Settings, Factory, ArrowDownToLine,
+  ClipboardCheck, Send, Users, Settings, Factory, ArrowDownToLine, TrendingUp,
 } from "lucide-react";
 import { clsx } from "clsx";
 
@@ -17,6 +17,7 @@ const nav = [
   { href: "/vendas",          label: "Vendas",             icon: BarChart3 },
   { href: "/picking",         label: "Picking",            icon: ClipboardCheck },
   { href: "/expedicao",       label: "Expedição Saída",    icon: Send },
+  { href: "/fiscal",          label: "Dashboard Fiscal",   icon: TrendingUp },
   { href: "/cadastros",       label: "Cadastros",          icon: Users },
 ];
 
