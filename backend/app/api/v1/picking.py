@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from fastapi import APIRouter, Depends, HTTPException, WebSocket, WebSocketDisconnect
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 from typing import Optional
@@ -96,7 +97,11 @@ async def concluir_picking(
 
 @router.get("/{conferencia_id}")
 async def detalhar_conferencia(conferencia_id: int, db: AsyncSession = Depends(get_db)):
-    r = await db.execute(select(ConferencePicking).where(ConferencePicking.id == conferencia_id))
+    r = await db.execute(
+        select(ConferencePicking)
+        .options(selectinload(ConferencePicking.itens))
+        .where(ConferencePicking.id == conferencia_id)
+    )
     c = r.scalar_one_or_none()
     if not c:
         raise HTTPException(404, "Conferência não encontrada")

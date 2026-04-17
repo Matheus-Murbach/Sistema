@@ -70,7 +70,8 @@ export default function PickingPage() {
 
   // WebSocket para feedback em tempo real (opcional, fallback para REST)
   useEffect(() => {
-    const wsUrl = `${window.location.protocol === "https:" ? "wss:" : "ws:"}//${window.location.host}/api/v1/picking/${conferencia_id}/ws`;
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+    const wsUrl = `${apiBase.replace(/^https/, "wss").replace(/^http/, "ws")}/api/v1/picking/${conferencia_id}/ws`;
     const ws = new WebSocket(wsUrl);
     wsRef.current = ws;
 
