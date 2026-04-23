@@ -1,12 +1,22 @@
 """
 Testes de integração — Fluxo de Produção via API (PCP).
 
-Verifica o ciclo completo de alta rotatividade:
-  1. POST /producao/       → Cria OP (ABERTA)
-  2. POST /iniciar         → Consome MP do estoque (EM_PRODUCAO)
-  3. POST /concluir        → Registra produzido + refugo, entra no estoque (CONCLUIDA)
+Endpoints cobertos:
+  POST /producao/                    → Cria OP (ABERTA)
+  POST /producao/{id}/iniciar        → Consome MP do estoque (EM_PRODUCAO)
+  POST /producao/{id}/concluir       → Registra produzido + refugo (CONCLUIDA)
+  POST /producao/conversao-rapida    → Conversão instantânea MP→PA em operação única
 
-Também testa: listagem, detalhe, erros de status inválido.
+Regras verificadas:
+  - Ciclo completo ABERTA → EM_PRODUCAO → CONCLUIDA
+  - Iniciar OP consome MP do estoque imediatamente
+  - Concluir OP registra quantidade produzida e refugo com yield_percent
+  - OP já EM_PRODUCAO não pode ser reiniciada (422)
+  - MP insuficiente impede início da OP (422)
+  - Conversão rápida: consome MP e cria PA em uma única chamada
+  - Conversão rápida com localização automática (sem informar localizacao_mp_id)
+  - Conversão rápida com MP insuficiente retorna 422
+  - Todos os mutadores exigem autenticação (401 sem token)
 """
 import pytest
 from decimal import Decimal
@@ -282,3 +292,132 @@ class TestFluxoProducao:
             }
         ], headers=auth_headers)
         assert r.status_code == 422
+
+
+# ---------------------------------------------------------------------------
+# Conversão Rápida (MP → PA em operação única)
+# ---------------------------------------------------------------------------
+
+class TestConversaoRapida:
+    async def test_conversao_basica_retorna_resumo(self, client, auth_headers, test_engine):
+        """Conversão rápida retorna resumo com número da OP e quantidades processadas."""
+        ids = await _setup_producao(test_engine)
+
+        r = await client.post("/api/v1/producao/conversao-rapida", json={
+            "produto_mp_id": ids["mp_id"],
+            "localizacao_mp_id": ids["loc_id"],
+            "quantidade_mp": "100",
+            "produto_pa_id": ids["acabado_id"],
+            "localizacao_pa_id": ids["loc_id"],
+            "quantidade_pa": "100",
+        }, headers=auth_headers)
+
+        assert r.status_code == 201
+        body = r.json()
+        assert "op_numero" in body
+        assert body["op_numero"].startswith("OP-")
+        assert body["quantidade_mp_consumida"] == 100.0
+        assert body["quantidade_pa_produzida"] == 100.0
+
+    async def test_conversao_reduz_saldo_mp(self, client, auth_headers, test_engine):
+        """Após conversão, saldo de MP deve diminuir pela quantidade consumida."""
+        from app.services.estoque_service import get_saldo_total_disponivel
+
+        ids = await _setup_producao(test_engine)
+        Session = async_sessionmaker(test_engine, class_=AsyncSession, expire_on_commit=False)
+
+        async with Session() as session:
+            saldo_antes = await get_saldo_total_disponivel(session, ids["mp_id"])
+        assert saldo_antes == Decimal("500")
+
+        await client.post("/api/v1/producao/conversao-rapida", json={
+            "produto_mp_id": ids["mp_id"],
+            "localizacao_mp_id": ids["loc_id"],
+            "quantidade_mp": "150",
+            "produto_pa_id": ids["acabado_id"],
+            "localizacao_pa_id": ids["loc_id"],
+            "quantidade_pa": "150",
+        }, headers=auth_headers)
+
+        async with Session() as session:
+            saldo_apos = await get_saldo_total_disponivel(session, ids["mp_id"])
+        assert saldo_apos == Decimal("350")
+
+    async def test_conversao_aumenta_saldo_pa(self, client, auth_headers, test_engine):
+        """Após conversão, saldo do PA deve aumentar pela quantidade produzida."""
+        from app.services.estoque_service import get_saldo_total_disponivel
+
+        ids = await _setup_producao(test_engine)
+        Session = async_sessionmaker(test_engine, class_=AsyncSession, expire_on_commit=False)
+
+        await client.post("/api/v1/producao/conversao-rapida", json={
+            "produto_mp_id": ids["mp_id"],
+            "localizacao_mp_id": ids["loc_id"],
+            "quantidade_mp": "80",
+            "produto_pa_id": ids["acabado_id"],
+            "localizacao_pa_id": ids["loc_id"],
+            "quantidade_pa": "80",
+        }, headers=auth_headers)
+
+        async with Session() as session:
+            saldo_pa = await get_saldo_total_disponivel(session, ids["acabado_id"])
+        assert saldo_pa == Decimal("80")
+
+    async def test_conversao_sem_localizacao_usa_automatica(self, client, auth_headers, test_engine):
+        """Sem informar localizacao_mp_id, o sistema usa a 1ª localização disponível."""
+        ids = await _setup_producao(test_engine)
+
+        r = await client.post("/api/v1/producao/conversao-rapida", json={
+            "produto_mp_id": ids["mp_id"],
+            "quantidade_mp": "10",
+            "produto_pa_id": ids["acabado_id"],
+            "quantidade_pa": "10",
+        }, headers=auth_headers)
+
+        assert r.status_code == 201
+
+    async def test_conversao_mp_insuficiente_retorna_422(self, client, auth_headers, test_engine):
+        """Tentar converter mais MP do que disponível deve retornar 422."""
+        ids = await _setup_producao(test_engine)
+
+        r = await client.post("/api/v1/producao/conversao-rapida", json={
+            "produto_mp_id": ids["mp_id"],
+            "localizacao_mp_id": ids["loc_id"],
+            "quantidade_mp": "9999",  # Muito mais do que os 500 disponíveis
+            "produto_pa_id": ids["acabado_id"],
+            "localizacao_pa_id": ids["loc_id"],
+            "quantidade_pa": "9999",
+        }, headers=auth_headers)
+
+        assert r.status_code == 422
+
+    async def test_conversao_sem_auth_retorna_401(self, client):
+        """Conversão rápida exige autenticação."""
+        r = await client.post("/api/v1/producao/conversao-rapida", json={
+            "produto_mp_id": 1,
+            "quantidade_mp": "10",
+            "produto_pa_id": 2,
+            "quantidade_pa": "10",
+        })
+        assert r.status_code == 401
+
+    async def test_conversao_registra_op_na_listagem_como_concluida(self, client, auth_headers, test_engine):
+        """OP criada pela conversão rápida deve aparecer na listagem com status CONCLUIDA."""
+        ids = await _setup_producao(test_engine)
+
+        r = await client.post("/api/v1/producao/conversao-rapida", json={
+            "produto_mp_id": ids["mp_id"],
+            "localizacao_mp_id": ids["loc_id"],
+            "quantidade_mp": "50",
+            "produto_pa_id": ids["acabado_id"],
+            "localizacao_pa_id": ids["loc_id"],
+            "quantidade_pa": "50",
+        }, headers=auth_headers)
+        assert r.status_code == 201
+        op_numero = r.json()["op_numero"]
+
+        r_lista = await client.get("/api/v1/producao/?status=CONCLUIDA")
+        assert r_lista.status_code == 200
+        ops = r_lista.json()
+        assert len(ops) == 1
+        assert ops[0]["numero"] == op_numero
