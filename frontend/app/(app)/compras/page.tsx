@@ -161,7 +161,7 @@ export default function ComprasPage() {
             onClick={() => setFiltro(f)}
             className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
               filtro === f
-                ? "bg-amber-600 text-white"
+                ? "bg-primary-hover text-white"
                 : "bg-white border text-gray-600 hover:bg-gray-50"
             }`}
           >
@@ -207,7 +207,7 @@ export default function ComprasPage() {
                   {p.status === "ABERTO" && (
                     <button
                       onClick={() => atualizarStatus(p.id, "ENVIADO")}
-                      className="text-amber-600 text-xs hover:underline mr-3"
+                      className="text-primary text-xs hover:underline mr-3"
                     >
                       Marcar Enviado
                     </button>
@@ -283,7 +283,7 @@ export default function ComprasPage() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label className="label mb-0">Itens *</label>
-                  <button type="button" onClick={addItem} className="text-amber-600 text-xs hover:underline">
+                  <button type="button" onClick={addItem} className="text-primary text-xs hover:underline">
                     + Adicionar item
                   </button>
                 </div>

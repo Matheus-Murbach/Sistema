@@ -146,7 +146,7 @@ export default function ClientesPage() {
                   </span>
                 </td>
                 <td className="p-3 text-right">
-                  <button onClick={() => openEditar(c)} className="text-amber-600 text-xs hover:underline">
+                  <button onClick={() => openEditar(c)} className="text-primary text-xs hover:underline">
                     Editar
                   </button>
                 </td>

@@ -48,7 +48,7 @@ export default function BeneficiamentoPage() {
             key={f}
             onClick={() => setFiltro(f)}
             className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-              filtro === f ? "bg-amber-600 text-white" : "bg-white border text-gray-600 hover:bg-gray-50"
+              filtro === f ? "bg-primary-hover text-white" : "bg-white border text-gray-600 hover:bg-gray-50"
             }`}
           >
             {f === "em-transito" ? "Em Trânsito" : "Retornados"}
@@ -90,7 +90,7 @@ export default function BeneficiamentoPage() {
                     <span className={STATUS_BADGE[lote.status] || "badge-gray"}>{lote.status}</span>
                   </td>
                   <td className="p-3 text-right">
-                    <a href={`/beneficiamento/${lote.id}`} className="text-amber-600 text-xs hover:underline">
+                    <a href={`/beneficiamento/${lote.id}`} className="text-primary text-xs hover:underline">
                       Detalhes
                     </a>
                     {lote.status === "ENVIADO" && (

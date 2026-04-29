@@ -138,7 +138,7 @@ export default function FornecedoresPage() {
                   {f.prazo_entrega_dias > 0 ? `${f.prazo_entrega_dias} dias` : "—"}
                 </td>
                 <td className="p-3 text-right">
-                  <button onClick={() => openEditar(f)} className="text-amber-600 text-xs hover:underline">
+                  <button onClick={() => openEditar(f)} className="text-primary text-xs hover:underline">
                     Editar
                   </button>
                 </td>

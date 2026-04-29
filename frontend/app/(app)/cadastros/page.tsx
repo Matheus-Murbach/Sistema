@@ -7,7 +7,7 @@ const secoes = [
     icon: Package,
     titulo: "Produtos",
     descricao: "Matérias-primas, produtos acabados e itens de revenda",
-    cor: "bg-amber-500",
+    cor: "bg-primary",
   },
   {
     href: "/cadastros/clientes",

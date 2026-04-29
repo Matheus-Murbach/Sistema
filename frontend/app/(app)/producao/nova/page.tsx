@@ -142,7 +142,7 @@ export default function NovaOPPage() {
         <div className="card p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-gray-700">Materiais (BOM)</h2>
-            <button type="button" onClick={addMaterial} className="text-amber-600 text-sm hover:underline flex items-center gap-1">
+            <button type="button" onClick={addMaterial} className="text-primary text-sm hover:underline flex items-center gap-1">
               <Plus size={14} /> Adicionar material
             </button>
           </div>

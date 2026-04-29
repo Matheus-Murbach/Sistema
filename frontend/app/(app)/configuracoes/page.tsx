@@ -69,7 +69,7 @@ export default function ConfiguracoesPage() {
             { label: "EMPRESA_EMAIL", desc: "E-mail de contato" },
           ].map(({ label, desc }) => (
             <div key={label}>
-              <code className="text-xs font-mono text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded">
+              <code className="text-xs font-mono text-primary-dark bg-primary-tint px-1.5 py-0.5 rounded">
                 {label}
               </code>
               <p className="text-xs text-gray-400 mt-0.5">{desc}</p>

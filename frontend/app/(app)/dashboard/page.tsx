@@ -49,7 +49,7 @@ export default function DashboardPage() {
           title="OPs em andamento"
           value={resumo.ops_abertas}
           icon={Factory}
-          color="bg-amber-500"
+          color="bg-primary"
         />
         <StatCard
           title="Pedidos p/ expedir"

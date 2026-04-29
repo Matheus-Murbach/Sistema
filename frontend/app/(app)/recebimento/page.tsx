@@ -189,7 +189,7 @@ export default function RecebimentoPage() {
           <div>
             <div className="flex items-center justify-between mb-2">
               <h3 className="font-medium text-gray-700">Itens</h3>
-              <button type="button" onClick={addItem} className="text-amber-600 text-sm hover:underline flex items-center gap-1">
+              <button type="button" onClick={addItem} className="text-primary text-sm hover:underline flex items-center gap-1">
                 <Plus size={13} /> Adicionar item
               </button>
             </div>
@@ -248,7 +248,7 @@ export default function RecebimentoPage() {
                         </div>
                         <div className="flex gap-4 mt-2 text-xs">
                           {parseFloat(item.aliq_icms) > 0 && <span className="text-orange-600">ICMS crédito: {moeda(subtotal * parseFloat(item.aliq_icms) / 100)}</span>}
-                          {parseFloat(item.aliq_ipi) > 0 && <span className="text-amber-600">IPI: {moeda(subtotal * parseFloat(item.aliq_ipi) / 100)}</span>}
+                          {parseFloat(item.aliq_ipi) > 0 && <span className="text-primary">IPI: {moeda(subtotal * parseFloat(item.aliq_ipi) / 100)}</span>}
                           {(parseFloat(item.aliq_pis) + parseFloat(item.aliq_cofins)) > 0 && (
                             <span className="text-purple-600">PIS/COFINS: {moeda(subtotal * (parseFloat(item.aliq_pis) + parseFloat(item.aliq_cofins)) / 100)}</span>
                           )}

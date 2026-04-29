@@ -131,7 +131,7 @@ export default function FiscalPage() {
                     <th className="px-4 py-2 text-left text-gray-500 font-medium">Tipo</th>
                     <th className="px-4 py-2 text-right text-gray-500 font-medium">Produtos</th>
                     <th className="px-4 py-2 text-right text-orange-500 font-medium">ICMS Créd.</th>
-                    <th className="px-4 py-2 text-right text-amber-500 font-medium">IPI Créd.</th>
+                    <th className="px-4 py-2 text-right text-primary font-medium">IPI Créd.</th>
                     <th className="px-4 py-2 text-right text-purple-500 font-medium">PIS/COFINS Créd.</th>
                   </tr>
                 </thead>
@@ -142,7 +142,7 @@ export default function FiscalPage() {
                       <td className="px-4 py-2 text-gray-500 text-xs">{n.tipo_entrada.replace(/_/g, " ")}</td>
                       <td className="px-4 py-2 text-right">{moeda(n.valor_total_produtos || 0)}</td>
                       <td className="px-4 py-2 text-right text-orange-600">{moeda(n.valor_icms_credito || 0)}</td>
-                      <td className="px-4 py-2 text-right text-amber-600">{moeda(n.valor_ipi_credito || 0)}</td>
+                      <td className="px-4 py-2 text-right text-primary">{moeda(n.valor_ipi_credito || 0)}</td>
                       <td className="px-4 py-2 text-right text-purple-600">{moeda((n.valor_pis_credito || 0) + (n.valor_cofins_credito || 0))}</td>
                     </tr>
                   ))}
@@ -150,7 +150,7 @@ export default function FiscalPage() {
                     <td colSpan={2} className="px-4 py-2 text-gray-600">Total</td>
                     <td className="px-4 py-2 text-right">{moeda(somaEntradas.produtos)}</td>
                     <td className="px-4 py-2 text-right text-orange-600">{moeda(somaEntradas.icms)}</td>
-                    <td className="px-4 py-2 text-right text-amber-600">{moeda(somaEntradas.ipi)}</td>
+                    <td className="px-4 py-2 text-right text-primary">{moeda(somaEntradas.ipi)}</td>
                     <td className="px-4 py-2 text-right text-purple-600">{moeda(somaEntradas.pis + somaEntradas.cofins)}</td>
                   </tr>
                 </tbody>
@@ -173,7 +173,7 @@ export default function FiscalPage() {
                     <th className="px-4 py-2 text-left text-gray-500 font-medium">Data</th>
                     <th className="px-4 py-2 text-right text-gray-500 font-medium">Produtos</th>
                     <th className="px-4 py-2 text-right text-orange-500 font-medium">ICMS Déb.</th>
-                    <th className="px-4 py-2 text-right text-amber-500 font-medium">IPI Déb.</th>
+                    <th className="px-4 py-2 text-right text-primary font-medium">IPI Déb.</th>
                     <th className="px-4 py-2 text-right text-purple-500 font-medium">PIS/COFINS Déb.</th>
                     <th className="px-4 py-2 text-right text-gray-500 font-medium">Total NF</th>
                   </tr>
@@ -189,7 +189,7 @@ export default function FiscalPage() {
                       <td className="px-4 py-2 text-gray-500">{new Date(n.data_emissao).toLocaleDateString("pt-BR")}</td>
                       <td className="px-4 py-2 text-right">{moeda(n.valor_produtos || 0)}</td>
                       <td className="px-4 py-2 text-right text-orange-600">{moeda(n.valor_icms || 0)}</td>
-                      <td className="px-4 py-2 text-right text-amber-600">{moeda(n.valor_ipi || 0)}</td>
+                      <td className="px-4 py-2 text-right text-primary">{moeda(n.valor_ipi || 0)}</td>
                       <td className="px-4 py-2 text-right text-purple-600">{moeda((n.valor_pis || 0) + (n.valor_cofins || 0))}</td>
                       <td className="px-4 py-2 text-right font-semibold">{moeda(n.valor_total || 0)}</td>
                     </tr>
@@ -198,7 +198,7 @@ export default function FiscalPage() {
                     <td colSpan={2} className="px-4 py-2 text-gray-600">Total</td>
                     <td className="px-4 py-2 text-right">{moeda(somaSaidas.produtos)}</td>
                     <td className="px-4 py-2 text-right text-orange-600">{moeda(somaSaidas.icms)}</td>
-                    <td className="px-4 py-2 text-right text-amber-600">{moeda(somaSaidas.ipi)}</td>
+                    <td className="px-4 py-2 text-right text-primary">{moeda(somaSaidas.ipi)}</td>
                     <td className="px-4 py-2 text-right text-purple-600">{moeda(somaSaidas.pis + somaSaidas.cofins)}</td>
                     <td className="px-4 py-2 text-right"></td>
                   </tr>

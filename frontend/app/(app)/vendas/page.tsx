@@ -98,7 +98,7 @@ export default function VendasPage() {
         {FILTROS.map((f) => (
           <button key={f} onClick={() => setFiltro(f)}
             className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-              filtro === f ? "bg-amber-600 text-white" : "bg-white border text-gray-600 hover:bg-gray-50"
+              filtro === f ? "bg-primary-hover text-white" : "bg-white border text-gray-600 hover:bg-gray-50"
             }`}>
             {f === "TODOS" ? "Todos" : STATUS_LABEL[f]}
           </button>
@@ -138,7 +138,7 @@ export default function VendasPage() {
                 <td className="p-3 text-right">
                   {p.status === "ORCAMENTO" && (
                     <button onClick={() => setConfirmandoId(p.id)}
-                      className="text-amber-600 text-xs hover:underline mr-3">
+                      className="text-primary text-xs hover:underline mr-3">
                       Confirmar
                     </button>
                   )}

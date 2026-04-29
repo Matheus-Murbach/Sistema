@@ -36,7 +36,7 @@ export default function Sidebar() {
             href={href}
             className={clsx(
               "flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-gray-700 hover:text-white",
-              pathname.startsWith(href) && "bg-amber-600 text-white"
+              pathname.startsWith(href) && "bg-primary-hover text-white"
             )}
           >
             <Icon size={16} />

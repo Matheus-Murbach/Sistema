@@ -147,7 +147,7 @@ export default function PickingPage() {
         </div>
         <div className="w-full bg-gray-200 rounded-full h-4">
           <div
-            className={`h-4 rounded-full transition-all duration-300 ${pct === 100 ? "bg-green-500" : "bg-amber-500"}`}
+            className={`h-4 rounded-full transition-all duration-300 ${pct === 100 ? "bg-green-500" : "bg-primary"}`}
             style={{ width: `${pct}%` }}
           />
         </div>
@@ -167,7 +167,7 @@ export default function PickingPage() {
       {!concluido && (
         <form onSubmit={handleScan} className="mb-6">
           <div className="flex items-center gap-3 card p-4">
-            <ScanLine size={24} className="text-amber-600 flex-shrink-0" />
+            <ScanLine size={24} className="text-primary flex-shrink-0" />
             <input
               ref={inputRef}
               value={scanInput}

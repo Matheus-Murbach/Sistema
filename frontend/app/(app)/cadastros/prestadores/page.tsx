@@ -144,7 +144,7 @@ export default function PrestadoresPage() {
                 <td className="p-3 text-right text-gray-500">{p.prazo_retorno_dias} dias</td>
                 <td className="p-3 text-right text-gray-500">{p.percentual_perda_esperado}%</td>
                 <td className="p-3 text-right">
-                  <button onClick={() => openEditar(p)} className="text-amber-600 text-xs hover:underline">
+                  <button onClick={() => openEditar(p)} className="text-primary text-xs hover:underline">
                     Editar
                   </button>
                 </td>
