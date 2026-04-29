@@ -95,10 +95,10 @@ export default function PickingPage() {
       {/* Para Iniciar */}
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-3">
-          <Clock size={16} className="text-blue-500" />
+          <Clock size={16} className="text-amber-500" />
           <h2 className="font-semibold text-gray-700">Para Iniciar</h2>
           {paraIniciar.length > 0 && (
-            <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-full">{paraIniciar.length}</span>
+            <span className="bg-amber-100 text-amber-700 text-xs font-bold px-2 py-0.5 rounded-full">{paraIniciar.length}</span>
           )}
         </div>
         {paraIniciar.length === 0 ? (
@@ -177,7 +177,7 @@ export default function PickingPage() {
                 <div className="flex items-center gap-3">
                   <span className="text-gray-600 text-sm font-medium">{moeda(p.valor_total)}</span>
                   <span className="text-xs text-green-700 bg-green-100 px-2 py-0.5 rounded-full font-medium">Aguardando expedição</span>
-                  <a href="/expedicao" className="text-xs text-blue-600 hover:underline">Expedir →</a>
+                  <a href="/expedicao" className="text-xs text-amber-600 hover:underline">Expedir →</a>
                 </div>
               </div>
             ))}

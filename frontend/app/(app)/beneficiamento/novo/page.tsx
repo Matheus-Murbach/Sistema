@@ -157,7 +157,7 @@ export default function NovoBeneficiamentoPage() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-gray-700">Itens para Beneficiar</h2>
             <button type="button" onClick={addItem}
-              className="text-blue-600 text-sm hover:underline flex items-center gap-1">
+              className="text-amber-600 text-sm hover:underline flex items-center gap-1">
               <Plus size={14} /> Adicionar item
             </button>
           </div>

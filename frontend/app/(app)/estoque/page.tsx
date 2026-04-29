@@ -51,7 +51,7 @@ export default function EstoquePage() {
             key={t}
             onClick={() => setTab(t)}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-              tab === t ? "border-blue-600 text-blue-700" : "border-transparent text-gray-500 hover:text-gray-700"
+              tab === t ? "border-amber-600 text-amber-700" : "border-transparent text-gray-500 hover:text-gray-700"
             }`}
           >
             {t === "pronta" ? `Pronta Entrega (${prontaEntrega.length})` : `Alertas (${alertas.length})`}

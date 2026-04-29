@@ -183,7 +183,7 @@ export default function ProdutosPage() {
                 <td className="p-3 text-right">
                   <button
                     onClick={() => openEditar(p)}
-                    className="text-blue-600 text-xs hover:underline"
+                    className="text-amber-600 text-xs hover:underline"
                   >
                     Editar
                   </button>

@@ -178,7 +178,7 @@ export default function NovoVendaPage() {
         <div className="card p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-gray-700">Itens do Pedido</h2>
-            <button type="button" onClick={addItem} className="text-blue-600 text-sm hover:underline flex items-center gap-1">
+            <button type="button" onClick={addItem} className="text-amber-600 text-sm hover:underline flex items-center gap-1">
               <Plus size={14} /> Adicionar item
             </button>
           </div>
@@ -237,7 +237,7 @@ export default function NovoVendaPage() {
                     <div className="flex gap-3 text-xs mt-2 pt-2 border-t border-gray-200 text-gray-500">
                       <span>Impostos saída:</span>
                       {c.icms > 0 && <span className="text-orange-600">ICMS {moeda(c.icms)} ({Number(prodSel.aliq_icms)}%)</span>}
-                      {c.ipi > 0 && <span className="text-blue-600">IPI {moeda(c.ipi)}</span>}
+                      {c.ipi > 0 && <span className="text-amber-600">IPI {moeda(c.ipi)}</span>}
                       {(c.pis + c.cofins) > 0 && <span className="text-purple-600">PIS/COFINS {moeda(c.pis + c.cofins)}</span>}
                     </div>
                   )}
@@ -260,7 +260,7 @@ export default function NovoVendaPage() {
               <p className="text-xs text-gray-400 mb-2">Impostos na saída (estimativa):</p>
               <div className="flex gap-3 text-xs">
                 <span className="bg-orange-50 text-orange-700 px-2 py-1 rounded">ICMS {moeda(totalIcms)}</span>
-                {totalIpi > 0 && <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded">IPI {moeda(totalIpi)}</span>}
+                {totalIpi > 0 && <span className="bg-amber-50 text-amber-700 px-2 py-1 rounded">IPI {moeda(totalIpi)}</span>}
               </div>
             </div>
           )}
