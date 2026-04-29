@@ -106,9 +106,9 @@ export default function DetalheLotePage() {
       </div>
 
       {atrasado && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3">
-          <AlertTriangle size={16} className="text-red-600 flex-shrink-0" />
-          <p className="text-sm text-red-700">
+        <div className="mb-4 p-4 bg-danger-tint border border-danger-subtle rounded-lg flex items-center gap-3">
+          <AlertTriangle size={16} className="text-danger flex-shrink-0" />
+          <p className="text-sm text-danger-dark">
             Lote com retorno atrasado desde{" "}
             <strong>{previsao!.toLocaleDateString("pt-BR")}</strong>.
           </p>
@@ -123,11 +123,11 @@ export default function DetalheLotePage() {
         </div>
         <div className="card p-4 text-center">
           <p className="text-xs text-gray-500 mb-1">Retornado</p>
-          <p className="text-2xl font-bold text-green-700">{totalRetornado.toLocaleString("pt-BR")}</p>
+          <p className="text-2xl font-bold text-success-dark">{totalRetornado.toLocaleString("pt-BR")}</p>
         </div>
         <div className="card p-4 text-center">
           <p className="text-xs text-gray-500 mb-1">Rejeitado</p>
-          <p className="text-2xl font-bold text-red-600">{totalRejeitado.toLocaleString("pt-BR")}</p>
+          <p className="text-2xl font-bold text-danger">{totalRejeitado.toLocaleString("pt-BR")}</p>
         </div>
       </div>
 
@@ -143,7 +143,7 @@ export default function DetalheLotePage() {
         </div>
         <div>
           <p className="text-gray-500">Previsão de Retorno</p>
-          <p className={`font-medium ${atrasado ? "text-red-600" : ""}`}>
+          <p className={`font-medium ${atrasado ? "text-danger" : ""}`}>
             {previsao ? previsao.toLocaleDateString("pt-BR") : "—"}
           </p>
         </div>
@@ -212,12 +212,12 @@ export default function DetalheLotePage() {
                   {item.produto_retorno_id ? nomeProduto(item.produto_retorno_id) : "Mesmo produto"}
                 </td>
                 <td className="p-3 text-right">{Number(item.quantidade_enviada).toLocaleString("pt-BR")}</td>
-                <td className="p-3 text-right text-green-700">
+                <td className="p-3 text-right text-success-dark">
                   {item.quantidade_retornada != null
                     ? Number(item.quantidade_retornada).toLocaleString("pt-BR")
                     : "—"}
                 </td>
-                <td className="p-3 text-right text-red-600">
+                <td className="p-3 text-right text-danger">
                   {item.quantidade_rejeitada != null && Number(item.quantidade_rejeitada) > 0
                     ? Number(item.quantidade_rejeitada).toLocaleString("pt-BR")
                     : "—"}

@@ -90,7 +90,7 @@ export default function PickingPage() {
         <button onClick={carregar} className="btn-secondary text-sm">Atualizar</button>
       </div>
 
-      {erro && <p className="text-sm text-red-600 bg-red-50 p-3 rounded mb-4">{erro}</p>}
+      {erro && <p className="text-sm text-danger bg-danger-tint p-3 rounded mb-4">{erro}</p>}
 
       {/* Para Iniciar */}
       <div className="mb-6">
@@ -123,10 +123,10 @@ export default function PickingPage() {
       {/* Em Andamento */}
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-3">
-          <Package size={16} className="text-yellow-500" />
+          <Package size={16} className="text-warning" />
           <h2 className="font-semibold text-gray-700">Em Andamento</h2>
           {emAndamento.length > 0 && (
-            <span className="bg-yellow-100 text-yellow-700 text-xs font-bold px-2 py-0.5 rounded-full">{emAndamento.length}</span>
+            <span className="bg-warning-subtle text-warning-dark text-xs font-bold px-2 py-0.5 rounded-full">{emAndamento.length}</span>
           )}
         </div>
         {emAndamento.length === 0 ? (
@@ -134,7 +134,7 @@ export default function PickingPage() {
         ) : (
           <div className="space-y-2">
             {emAndamento.map(p => (
-              <div key={p.id} className="border border-yellow-200 bg-yellow-50 rounded-lg p-3 flex items-center justify-between">
+              <div key={p.id} className="border border-warning-subtle bg-warning-tint rounded-lg p-3 flex items-center justify-between">
                 <div>
                   <span className="font-mono text-sm font-semibold text-gray-800">{p.numero}</span>
                   <span className="text-gray-500 text-sm ml-3">{clientes[p.cliente_id] || "—"}</span>
@@ -144,7 +144,7 @@ export default function PickingPage() {
                   <button
                     onClick={() => concluirPicking(p.id)}
                     disabled={processando === p.id}
-                    className="text-xs px-3 py-1.5 rounded-md bg-green-600 text-white hover:bg-green-700 flex items-center gap-1"
+                    className="text-xs px-3 py-1.5 rounded-md bg-success text-white hover:bg-success-dark flex items-center gap-1"
                   >
                     <CheckCircle2 size={12} /> {processando === p.id ? "..." : "Concluir"}
                   </button>
@@ -158,10 +158,10 @@ export default function PickingPage() {
       {/* Prontos na Fábrica */}
       <div>
         <div className="flex items-center gap-2 mb-3">
-          <CheckCircle2 size={16} className="text-green-500" />
+          <CheckCircle2 size={16} className="text-success" />
           <h2 className="font-semibold text-gray-700">Prontos / Na Fábrica</h2>
           {prontos.length > 0 && (
-            <span className="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded-full">{prontos.length}</span>
+            <span className="bg-success-subtle text-success-dark text-xs font-bold px-2 py-0.5 rounded-full">{prontos.length}</span>
           )}
         </div>
         {prontos.length === 0 ? (
@@ -169,14 +169,14 @@ export default function PickingPage() {
         ) : (
           <div className="space-y-2">
             {prontos.map(p => (
-              <div key={p.id} className="border border-green-200 bg-green-50 rounded-lg p-3 flex items-center justify-between">
+              <div key={p.id} className="border border-success-subtle bg-success-tint rounded-lg p-3 flex items-center justify-between">
                 <div>
                   <span className="font-mono text-sm font-semibold text-gray-800">{p.numero}</span>
                   <span className="text-gray-500 text-sm ml-3">{clientes[p.cliente_id] || "—"}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-gray-600 text-sm font-medium">{moeda(p.valor_total)}</span>
-                  <span className="text-xs text-green-700 bg-green-100 px-2 py-0.5 rounded-full font-medium">Aguardando expedição</span>
+                  <span className="text-xs text-success-dark bg-success-subtle px-2 py-0.5 rounded-full font-medium">Aguardando expedição</span>
                   <a href="/expedicao" className="text-xs text-primary hover:underline">Expedir →</a>
                 </div>
               </div>

@@ -16,7 +16,7 @@ function StatCard({ title, value, icon: Icon, color, alert }: {
   title: string; value: number | string; icon: any; color: string; alert?: boolean;
 }) {
   return (
-    <div className={`card p-5 flex items-start gap-4 ${alert ? "border-l-4 border-red-500" : ""}`}>
+    <div className={`card p-5 flex items-start gap-4 ${alert ? "border-l-4 border-danger" : ""}`}>
       <div className={`p-2 rounded-lg ${color}`}>
         <Icon size={20} className="text-white" />
       </div>
@@ -68,21 +68,21 @@ export default function DashboardPage() {
           title="Banhos atrasados"
           value={resumo.lotes_banho_atrasados}
           icon={AlertTriangle}
-          color="bg-red-600"
+          color="bg-danger"
           alert={resumo.lotes_banho_atrasados > 0}
         />
         <StatCard
           title="Vendas do mês"
           value={new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(resumo.vendas_mes)}
           icon={ShoppingCart}
-          color="bg-green-600"
+          color="bg-success"
         />
       </div>
 
       {resumo.lotes_banho_atrasados > 0 && (
-        <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3">
-          <AlertTriangle size={18} className="text-red-600 flex-shrink-0" />
-          <p className="text-sm text-red-700">
+        <div className="mt-6 p-4 bg-danger-tint border border-danger-subtle rounded-lg flex items-center gap-3">
+          <AlertTriangle size={18} className="text-danger flex-shrink-0" />
+          <p className="text-sm text-danger-dark">
             <strong>{resumo.lotes_banho_atrasados}</strong> lote(s) de beneficiamento com prazo de retorno vencido.{" "}
             <a href="/beneficiamento" className="underline font-medium">Ver lotes</a>
           </p>

@@ -36,9 +36,9 @@ interface ScanResult {
 }
 
 const COR_BG = {
-  verde: "bg-green-500",
-  vermelho: "bg-red-500",
-  amarelo: "bg-yellow-400",
+  verde: "bg-success-tint0",
+  vermelho: "bg-danger-tint0",
+  amarelo: "bg-warning",
   cinza: "bg-gray-300",
 };
 
@@ -147,7 +147,7 @@ export default function PickingPage() {
         </div>
         <div className="w-full bg-gray-200 rounded-full h-4">
           <div
-            className={`h-4 rounded-full transition-all duration-300 ${pct === 100 ? "bg-green-500" : "bg-primary"}`}
+            className={`h-4 rounded-full transition-all duration-300 ${pct === 100 ? "bg-success-tint0" : "bg-primary"}`}
             style={{ width: `${pct}%` }}
           />
         </div>
@@ -220,10 +220,10 @@ export default function PickingPage() {
       </div>
 
       {concluido && (
-        <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-xl text-center">
-          <CheckCircle2 size={48} className="text-green-600 mx-auto mb-3" />
-          <h2 className="text-xl font-bold text-green-800">Conferência Concluída!</h2>
-          <p className="text-sm text-green-600 mt-1">Todos os itens foram conferidos corretamente.</p>
+        <div className="mt-6 p-6 bg-success-tint border border-success-subtle rounded-xl text-center">
+          <CheckCircle2 size={48} className="text-success mx-auto mb-3" />
+          <h2 className="text-xl font-bold text-success-dark">Conferência Concluída!</h2>
+          <p className="text-sm text-success mt-1">Todos os itens foram conferidos corretamente.</p>
           <a href="/expedicao" className="btn-primary mt-4 inline-flex">
             Ir para Expedição →
           </a>

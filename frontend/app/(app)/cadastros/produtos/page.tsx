@@ -280,7 +280,7 @@ export default function ProdutosPage() {
                 </div>
               </div>
 
-              {erro && <p className="text-sm text-red-600 bg-red-50 p-2 rounded">{erro}</p>}
+              {erro && <p className="text-sm text-danger bg-danger-tint p-2 rounded">{erro}</p>}
 
               <div className="flex justify-end gap-3 pt-2">
                 <button type="button" className="btn-secondary" onClick={() => setShowModal(false)}>

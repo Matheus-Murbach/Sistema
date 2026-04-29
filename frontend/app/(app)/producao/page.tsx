@@ -77,7 +77,7 @@ export default function ProducaoPage() {
       {/* Formulário de conversão rápida */}
       <div className="card p-6 mb-6">
         <div className="flex items-center gap-2 mb-4">
-          <Zap size={18} className="text-yellow-500" />
+          <Zap size={18} className="text-warning" />
           <h2 className="font-semibold text-gray-700">Conversão Rápida — MP → Produto Acabado</h2>
         </div>
         <form onSubmit={handleConverter} className="space-y-4">
@@ -133,9 +133,9 @@ export default function ProducaoPage() {
             <label className="label">Observação</label>
             <input className="input" value={conv.observacao} onChange={e => setConv({ ...conv, observacao: e.target.value })} placeholder="Ex: turno da tarde, máquina 02..." />
           </div>
-          {erro && <p className="text-sm text-red-600 bg-red-50 p-3 rounded">{erro}</p>}
+          {erro && <p className="text-sm text-danger bg-danger-tint p-3 rounded">{erro}</p>}
           {sucesso && (
-            <div className="flex items-center gap-2 text-sm text-green-700 bg-green-50 p-3 rounded">
+            <div className="flex items-center gap-2 text-sm text-success-dark bg-success-tint p-3 rounded">
               <CheckCircle2 size={16} /> {sucesso}
             </div>
           )}

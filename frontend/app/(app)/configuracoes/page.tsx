@@ -43,7 +43,7 @@ export default function ConfiguracoesPage() {
       </div>
 
       {sucesso && (
-        <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3 text-sm text-green-800">
+        <div className="mb-4 p-4 bg-success-tint border border-success-subtle rounded-lg flex items-center gap-3 text-sm text-success-dark">
           <CheckCircle2 size={16} className="flex-shrink-0" />
           {sucesso}
         </div>
@@ -128,7 +128,7 @@ export default function ConfiguracoesPage() {
           Crie usuários adicionais para operadores e administradores. Perfis disponíveis:{" "}
           <strong>admin</strong> (acesso total) e <strong>operador</strong> (acesso operacional).
         </p>
-        <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-xs text-yellow-800">
+        <div className="mt-4 p-3 bg-warning-tint border border-warning-subtle rounded-lg text-xs text-warning-dark">
           Somente administradores podem criar novos usuários. A senha inicial deve ser trocada pelo usuário no primeiro acesso.
         </div>
       </div>
@@ -172,7 +172,7 @@ export default function ConfiguracoesPage() {
                 </select>
               </div>
 
-              {erro && <p className="text-sm text-red-600 bg-red-50 p-2 rounded">{erro}</p>}
+              {erro && <p className="text-sm text-danger bg-danger-tint p-2 rounded">{erro}</p>}
 
               <div className="flex justify-end gap-3 pt-2">
                 <button type="button" className="btn-secondary"

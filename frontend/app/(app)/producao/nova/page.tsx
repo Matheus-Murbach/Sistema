@@ -174,7 +174,7 @@ export default function NovaOPPage() {
                     onChange={(e) => updateMaterial(i, "quantidade_necessaria", e.target.value)} />
                 </div>
                 <button type="button" onClick={() => removeMaterial(i)}
-                  className="text-red-400 hover:text-red-600 pb-2">
+                  className="text-danger hover:text-danger pb-2">
                   <Trash2 size={16} />
                 </button>
               </div>
@@ -182,7 +182,7 @@ export default function NovaOPPage() {
           </div>
         </div>
 
-        {erro && <p className="text-sm text-red-600 bg-red-50 p-3 rounded">{erro}</p>}
+        {erro && <p className="text-sm text-danger bg-danger-tint p-3 rounded">{erro}</p>}
 
         <div className="flex justify-end gap-3">
           <a href="/producao" className="btn-secondary">Cancelar</a>

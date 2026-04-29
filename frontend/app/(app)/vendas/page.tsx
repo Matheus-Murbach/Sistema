@@ -150,7 +150,7 @@ export default function VendasPage() {
                   )}
                   {!["EXPEDIDO", "CANCELADO"].includes(p.status) && (
                     <button onClick={() => setCancelandoId(p.id)}
-                      className="text-red-500 text-xs hover:underline">
+                      className="text-danger text-xs hover:underline">
                       Cancelar
                     </button>
                   )}

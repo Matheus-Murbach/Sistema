@@ -229,7 +229,7 @@ export default function RetornoLotePage() {
             })}
           </div>
 
-          {erro && <p className="text-sm text-red-600 bg-red-50 p-3 rounded">{erro}</p>}
+          {erro && <p className="text-sm text-danger bg-danger-tint p-3 rounded">{erro}</p>}
 
           <div className="flex justify-end gap-3">
             <a href={`/beneficiamento/${id}`} className="btn-secondary">Cancelar</a>

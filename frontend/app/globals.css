@@ -29,21 +29,30 @@
  *   --color-success         #16a34a   green-600
  *   --color-success-subtle  #dcfce7   green-100   fundo de badge
  *   --color-success-dark    #166534   green-800   texto em badge
+ *   --color-success-tint    #f0fdf4   green-50    fundo muito sutil
  *
  * Perigo
  *   --color-danger          #dc2626   red-600
+ *   --color-danger-hover    #b91c1c   red-700     hover de botão danger
  *   --color-danger-subtle   #fee2e2   red-100     fundo de badge
  *   --color-danger-dark     #991b1b   red-800     texto em badge
+ *   --color-danger-tint     #fef2f2   red-50      fundo muito sutil
  *
  * Alerta
  *   --color-warning         #ca8a04   yellow-600
  *   --color-warning-subtle  #fef9c3   yellow-100  fundo de badge
  *   --color-warning-dark    #854d0e   yellow-800  texto em badge
+ *   --color-warning-tint    #fefce8   yellow-50   fundo muito sutil
  *
  * Superfícies
  *   --color-page-bg         #f9fafb   gray-50     fundo de páginas
  *   --color-surface         #ffffff               cards e modais
- *   --color-sidebar-bg      #111827   gray-900    navegação lateral
+ *
+ * Sidebar (dark)
+ *   --color-sidebar-bg      #111827   gray-900    fundo da navegação
+ *   --color-sidebar-text    #d1d5db   gray-300    texto dos itens
+ *   --color-sidebar-muted   #9ca3af   gray-400    texto secundário
+ *   --color-sidebar-accent  #374151   gray-700    bordas e hover
  *
  * Texto
  *   --color-text            #374151   gray-700    corpo de texto
@@ -96,21 +105,30 @@
   --color-success:        #16a34a;
   --color-success-subtle: #dcfce7;
   --color-success-dark:   #166534;
+  --color-success-tint:   #f0fdf4;
 
   /* Perigo */
   --color-danger:         #dc2626;
+  --color-danger-hover:   #b91c1c;
   --color-danger-subtle:  #fee2e2;
   --color-danger-dark:    #991b1b;
+  --color-danger-tint:    #fef2f2;
 
   /* Alerta */
   --color-warning:        #ca8a04;
   --color-warning-subtle: #fef9c3;
   --color-warning-dark:   #854d0e;
+  --color-warning-tint:   #fefce8;
 
   /* Superfícies */
   --color-page-bg:        #f9fafb;
   --color-surface:        #ffffff;
+
+  /* Sidebar */
   --color-sidebar-bg:     #111827;
+  --color-sidebar-text:   #d1d5db;
+  --color-sidebar-muted:  #9ca3af;
+  --color-sidebar-accent: #374151;
 
   /* Texto */
   --color-text:           #374151;
@@ -154,10 +172,10 @@
     @apply btn bg-primary text-gray-900 hover:bg-primary-hover focus:ring-primary;
   }
   .btn-secondary {
-    @apply btn bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-primary;
+    @apply btn bg-surface border border-gray-300 text-gray-700 hover:bg-page focus:ring-primary;
   }
   .btn-danger {
-    @apply btn bg-danger text-white hover:bg-red-700 focus:ring-danger;
+    @apply btn bg-danger text-white hover:bg-danger-hover focus:ring-danger;
   }
   .card {
     @apply bg-surface rounded-lg border border-gray-200 shadow-sm;

@@ -184,7 +184,7 @@ export default function NovoVendaPage() {
           </div>
 
           {temNegativo && (
-            <div className="mb-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg flex items-start gap-2 text-sm text-yellow-800">
+            <div className="mb-3 p-3 bg-warning-tint border border-warning-subtle rounded-lg flex items-start gap-2 text-sm text-warning-dark">
               <AlertTriangle size={16} className="flex-shrink-0 mt-0.5" />
               <span>Um ou mais itens estão com quantidade acima do estoque disponível. O pedido será criado normalmente — os itens serão produzidos/recebidos antes da expedição.</span>
             </div>
@@ -195,7 +195,7 @@ export default function NovoVendaPage() {
               const c = calcs[i];
               const prodSel = produtos.find((p) => String(p.id) === item.produto_id);
               return (
-                <div key={i} className={`p-3 rounded-lg border ${c.negativo ? "bg-yellow-50 border-yellow-200" : "bg-gray-50 border-gray-200"}`}>
+                <div key={i} className={`p-3 rounded-lg border ${c.negativo ? "bg-warning-tint border-warning-subtle" : "bg-gray-50 border-gray-200"}`}>
                   <div className="flex gap-2 items-start">
                     <div className="flex-1">
                       {i === 0 && <label className="label">Produto</label>}
@@ -206,8 +206,8 @@ export default function NovoVendaPage() {
                       {item.produto_id && (
                         <div className="flex items-center gap-1 mt-1 text-xs">
                           {c.negativo
-                            ? <><AlertTriangle size={11} className="text-yellow-600" /><span className="text-yellow-700">Estoque: {c.disponivel.toLocaleString("pt-BR")} un — <strong>pedido negativo</strong></span></>
-                            : <><CheckCircle2 size={11} className="text-green-600" /><span className="text-green-700">Estoque disponível: {c.disponivel.toLocaleString("pt-BR")} un</span></>
+                            ? <><AlertTriangle size={11} className="text-warning" /><span className="text-warning-dark">Estoque: {c.disponivel.toLocaleString("pt-BR")} un — <strong>pedido negativo</strong></span></>
+                            : <><CheckCircle2 size={11} className="text-success" /><span className="text-success-dark">Estoque disponível: {c.disponivel.toLocaleString("pt-BR")} un</span></>
                           }
                         </div>
                       )}
@@ -228,7 +228,7 @@ export default function NovoVendaPage() {
                       {i === 0 && <label className="label">Subtotal</label>}
                       <div className="py-2 font-semibold text-gray-800">{moeda(c.liquido)}</div>
                     </div>
-                    <button type="button" onClick={() => removeItem(i)} className="text-red-400 hover:text-red-600 mt-6">
+                    <button type="button" onClick={() => removeItem(i)} className="text-danger hover:text-danger mt-6">
                       <Trash2 size={16} />
                     </button>
                   </div>
@@ -266,7 +266,7 @@ export default function NovoVendaPage() {
           )}
         </div>
 
-        {erro && <p className="text-sm text-red-600 bg-red-50 p-3 rounded">{erro}</p>}
+        {erro && <p className="text-sm text-danger bg-danger-tint p-3 rounded">{erro}</p>}
 
         <div className="flex justify-end gap-3">
           <a href="/vendas" className="btn-secondary">Cancelar</a>

@@ -169,7 +169,7 @@ export default function NovoBeneficiamentoPage() {
                   <span className="text-xs font-medium text-gray-500">Item {i + 1}</span>
                   {itens.length > 1 && (
                     <button type="button" onClick={() => removeItem(i)}
-                      className="text-red-400 hover:text-red-600">
+                      className="text-danger hover:text-danger">
                       <Trash2 size={14} />
                     </button>
                   )}
@@ -228,7 +228,7 @@ export default function NovoBeneficiamentoPage() {
           </div>
         </div>
 
-        {erro && <p className="text-sm text-red-600 bg-red-50 p-3 rounded">{erro}</p>}
+        {erro && <p className="text-sm text-danger bg-danger-tint p-3 rounded">{erro}</p>}
 
         <div className="flex justify-end gap-3">
           <a href="/beneficiamento" className="btn-secondary">Cancelar</a>

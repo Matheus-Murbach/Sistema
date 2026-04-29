@@ -14,7 +14,7 @@ const secoes = [
     icon: Users,
     titulo: "Clientes",
     descricao: "Clientes pessoa física e jurídica",
-    cor: "bg-green-600",
+    cor: "bg-success",
   },
   {
     href: "/cadastros/fornecedores",

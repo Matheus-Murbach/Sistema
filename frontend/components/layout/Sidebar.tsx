@@ -24,10 +24,10 @@ const nav = [
 export default function Sidebar() {
   const pathname = usePathname();
   return (
-    <aside className="w-60 min-h-screen bg-gray-900 text-gray-300 flex flex-col">
-      <div className="px-4 py-5 border-b border-gray-700">
+    <aside className="w-60 min-h-screen bg-sidebar text-sidebar-text flex flex-col">
+      <div className="px-4 py-5 border-b border-sidebar-accent">
         <h1 className="text-white font-bold text-lg">Sistema ERP</h1>
-        <p className="text-xs text-gray-400 mt-0.5">Industrial</p>
+        <p className="text-xs text-sidebar-muted mt-0.5">Industrial</p>
       </div>
       <nav className="flex-1 py-4">
         {nav.map(({ href, label, icon: Icon }) => (
@@ -35,7 +35,7 @@ export default function Sidebar() {
             key={href}
             href={href}
             className={clsx(
-              "flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-gray-700 hover:text-white",
+              "flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-sidebar-accent hover:text-white",
               pathname.startsWith(href) && "bg-primary-hover text-white"
             )}
           >
@@ -44,8 +44,8 @@ export default function Sidebar() {
           </Link>
         ))}
       </nav>
-      <div className="px-4 py-3 border-t border-gray-700">
-        <Link href="/configuracoes" className="flex items-center gap-2 text-xs text-gray-400 hover:text-white">
+      <div className="px-4 py-3 border-t border-sidebar-accent">
+        <Link href="/configuracoes" className="flex items-center gap-2 text-xs text-sidebar-muted hover:text-white">
           <Settings size={14} />
           Configurações
         </Link>

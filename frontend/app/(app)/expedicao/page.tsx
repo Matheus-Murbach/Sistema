@@ -69,14 +69,14 @@ export default function ExpedicaoPage() {
         <button onClick={carregar} className="btn-secondary text-sm">Atualizar</button>
       </div>
 
-      {erro && <p className="text-sm text-red-600 bg-red-50 p-3 rounded mb-4">{erro}</p>}
+      {erro && <p className="text-sm text-danger bg-danger-tint p-3 rounded mb-4">{erro}</p>}
 
       {/* Prontos para expedir */}
       <div className="mb-8">
         <h2 className="font-semibold text-gray-700 mb-3 flex items-center gap-2">
           Prontos para Expedir
           {prontos.length > 0 && (
-            <span className="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded-full">{prontos.length}</span>
+            <span className="bg-success-subtle text-success-dark text-xs font-bold px-2 py-0.5 rounded-full">{prontos.length}</span>
           )}
         </h2>
         {prontos.length === 0 ? (

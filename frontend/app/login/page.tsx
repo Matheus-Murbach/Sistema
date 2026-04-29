@@ -44,7 +44,7 @@ export default function LoginPage() {
             <label className="label">Senha</label>
             <input className="input" type="password" value={senha} onChange={(e) => setSenha(e.target.value)} required />
           </div>
-          {erro && <p className="text-sm text-red-600">{erro}</p>}
+          {erro && <p className="text-sm text-danger">{erro}</p>}
           <button type="submit" className="btn-primary w-full" disabled={loading}>
             {loading ? "Entrando..." : "Entrar"}
           </button>

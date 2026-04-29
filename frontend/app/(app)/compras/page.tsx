@@ -215,7 +215,7 @@ export default function ComprasPage() {
                   {p.status === "ENVIADO" && (
                     <a
                       href="/recebimento"
-                      className="text-green-600 text-xs hover:underline mr-3"
+                      className="text-success text-xs hover:underline mr-3"
                     >
                       Receber NF
                     </a>
@@ -315,7 +315,7 @@ export default function ComprasPage() {
                           onChange={(e) => updateItem(i, "preco_unitario", e.target.value)} />
                       </div>
                       <button type="button" onClick={() => removeItem(i)}
-                        className="text-red-400 hover:text-red-600 pb-2">
+                        className="text-danger hover:text-danger pb-2">
                         <Trash2 size={16} />
                       </button>
                     </div>
@@ -326,7 +326,7 @@ export default function ComprasPage() {
                 </div>
               </div>
 
-              {erro && <p className="text-sm text-red-600 bg-red-50 p-2 rounded">{erro}</p>}
+              {erro && <p className="text-sm text-danger bg-danger-tint p-2 rounded">{erro}</p>}
 
               <div className="flex justify-end gap-3 pt-2">
                 <button type="button" className="btn-secondary" onClick={() => setShowModal(false)}>

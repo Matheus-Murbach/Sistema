@@ -63,18 +63,18 @@ export default function FiscalPage() {
     <div className="card p-4">
       <div className="text-sm text-gray-500 font-medium mb-3">{label}</div>
       <div className="flex justify-between text-sm mb-1">
-        <span className="text-green-600 flex items-center gap-1"><TrendingDown size={13} /> Crédito</span>
-        <span className="font-semibold text-green-700">{moeda(credito)}</span>
+        <span className="text-success flex items-center gap-1"><TrendingDown size={13} /> Crédito</span>
+        <span className="font-semibold text-success-dark">{moeda(credito)}</span>
       </div>
       <div className="flex justify-between text-sm mb-2">
-        <span className="text-red-500 flex items-center gap-1"><TrendingUp size={13} /> Débito</span>
-        <span className="font-semibold text-red-600">{moeda(debito)}</span>
+        <span className="text-danger flex items-center gap-1"><TrendingUp size={13} /> Débito</span>
+        <span className="font-semibold text-danger">{moeda(debito)}</span>
       </div>
       <div className="border-t pt-2 flex justify-between text-sm font-bold">
-        <span className={saldo >= 0 ? "text-green-700" : "text-red-600"}>
+        <span className={saldo >= 0 ? "text-success-dark" : "text-danger"}>
           {saldo >= 0 ? "Saldo credor" : "Saldo devedor"}
         </span>
-        <span className={saldo >= 0 ? "text-green-700" : "text-red-600"}>{moeda(Math.abs(saldo))}</span>
+        <span className={saldo >= 0 ? "text-success-dark" : "text-danger"}>{moeda(Math.abs(saldo))}</span>
       </div>
     </div>
   );
@@ -182,7 +182,7 @@ export default function FiscalPage() {
                   {saidasMes.map(n => (
                     <tr key={n.id} className="border-t hover:bg-gray-50">
                       <td className="px-4 py-2">
-                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${n.status_sefaz === "AUTORIZADA" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}>
+                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${n.status_sefaz === "AUTORIZADA" ? "bg-success-subtle text-success-dark" : "bg-gray-100 text-gray-600"}`}>
                           {n.status_sefaz}
                         </span>
                       </td>

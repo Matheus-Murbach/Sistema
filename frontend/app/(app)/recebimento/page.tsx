@@ -228,7 +228,7 @@ export default function RecebimentoPage() {
                       <button type="button" onClick={() => toggleExpandido(i)} className="text-gray-400 hover:text-gray-600 mt-4" title="Alíquotas fiscais">
                         {item.expandido ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                       </button>
-                      <button type="button" onClick={() => removeItem(i)} className="text-red-400 hover:text-red-600 mt-4">
+                      <button type="button" onClick={() => removeItem(i)} className="text-danger hover:text-danger mt-4">
                         <Trash2 size={15} />
                       </button>
                     </div>
@@ -267,7 +267,7 @@ export default function RecebimentoPage() {
             <span className="text-gray-900 font-bold">Total: {moeda(totalGeral)}</span>
           </div>
 
-          {erro && <p className="text-sm text-red-600 bg-red-50 p-3 rounded">{erro}</p>}
+          {erro && <p className="text-sm text-danger bg-danger-tint p-3 rounded">{erro}</p>}
           <div className="flex justify-end gap-3">
             <button type="button" className="btn-secondary" onClick={() => setShowForm(false)}>Cancelar</button>
             <button type="submit" className="btn-primary" disabled={saving}>{saving ? "Salvando..." : "Registrar Entrada"}</button>

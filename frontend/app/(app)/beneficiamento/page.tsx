@@ -79,7 +79,7 @@ export default function BeneficiamentoPage() {
                   <td className="p-3">{new Date(lote.data_remessa).toLocaleDateString("pt-BR")}</td>
                   <td className="p-3">
                     {previsao ? (
-                      <span className={`flex items-center gap-1 ${atrasado ? "text-red-600 font-bold" : ""}`}>
+                      <span className={`flex items-center gap-1 ${atrasado ? "text-danger font-bold" : ""}`}>
                         {atrasado && <AlertTriangle size={12} />}
                         {previsao.toLocaleDateString("pt-BR")}
                         {atrasado && " (atrasado)"}
@@ -94,7 +94,7 @@ export default function BeneficiamentoPage() {
                       Detalhes
                     </a>
                     {lote.status === "ENVIADO" && (
-                      <a href={`/beneficiamento/${lote.id}/retorno`} className="text-green-600 text-xs hover:underline ml-3">
+                      <a href={`/beneficiamento/${lote.id}/retorno`} className="text-success text-xs hover:underline ml-3">
                         Registrar Retorno
                       </a>
                     )}

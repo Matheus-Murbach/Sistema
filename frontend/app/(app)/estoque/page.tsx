@@ -84,7 +84,7 @@ export default function EstoquePage() {
                   <tr key={item.produto_id} className="border-b last:border-0 hover:bg-gray-50">
                     <td className="p-3 font-mono text-xs">{item.codigo}</td>
                     <td className="p-3">{item.descricao}</td>
-                    <td className="p-3 text-right font-bold text-green-700">
+                    <td className="p-3 text-right font-bold text-success-dark">
                       {Number(item.quantidade_disponivel).toLocaleString("pt-BR")}
                     </td>
                   </tr>
@@ -115,9 +115,9 @@ export default function EstoquePage() {
                 <tr key={a.produto_id} className="border-b last:border-0 hover:bg-gray-50">
                   <td className="p-3 font-mono text-xs">{a.codigo}</td>
                   <td className="p-3">{a.descricao}</td>
-                  <td className="p-3 text-right text-red-600 font-bold">{a.estoque_atual}</td>
+                  <td className="p-3 text-right text-danger font-bold">{a.estoque_atual}</td>
                   <td className="p-3 text-right text-gray-500">{a.estoque_minimo}</td>
-                  <td className="p-3 text-right text-red-700 font-bold">-{a.deficit}</td>
+                  <td className="p-3 text-right text-danger-dark font-bold">-{a.deficit}</td>
                 </tr>
               ))}
               {alertas.length === 0 && (
