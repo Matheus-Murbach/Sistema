@@ -82,7 +82,7 @@ export default function NovaOPPage() {
   return (
     <div className="max-w-2xl">
       <div className="flex items-center gap-3 mb-6">
-        <a href="/producao" className="text-gray-400 hover:text-gray-600">
+        <a href="/producao" className="text-muted hover:text-gray-600">
           <ChevronLeft size={20} />
         </a>
         <h1 className="text-2xl font-bold">Nova Ordem de Produção</h1>
@@ -148,7 +148,7 @@ export default function NovaOPPage() {
           </div>
 
           {materiais.length === 0 && (
-            <p className="text-sm text-gray-400 text-center py-4">Nenhum material adicionado. A OP pode ser iniciada sem BOM.</p>
+            <p className="text-sm text-muted text-center py-4">Nenhum material adicionado. A OP pode ser iniciada sem BOM.</p>
           )}
 
           <div className="space-y-3">

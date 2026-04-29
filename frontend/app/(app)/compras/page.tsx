@@ -162,7 +162,7 @@ export default function ComprasPage() {
             className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
               filtro === f
                 ? "bg-primary-hover text-white"
-                : "bg-white border text-gray-600 hover:bg-gray-50"
+                : "bg-surface border text-gray-600 hover:bg-page"
             }`}
           >
             {f === "TODOS" ? "Todos" : STATUS_LABEL[f]}
@@ -172,7 +172,7 @@ export default function ComprasPage() {
 
       <div className="card overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-page border-b">
             <tr>
               <th className="text-left p-3 font-medium text-gray-600">Número</th>
               <th className="text-left p-3 font-medium text-gray-600">Fornecedor</th>
@@ -185,14 +185,14 @@ export default function ComprasPage() {
           </thead>
           <tbody>
             {pedidos.map((p) => (
-              <tr key={p.id} className="border-b last:border-0 hover:bg-gray-50">
+              <tr key={p.id} className="border-b last:border-0 hover:bg-page">
                 <td className="p-3 font-mono text-xs font-bold">{p.numero}</td>
                 <td className="p-3 text-gray-700">
                   {fornecedores.find((f) => f.id === p.fornecedor_id)?.razao_social ||
                     `Fornecedor #${p.fornecedor_id}`}
                 </td>
                 <td className="p-3">{new Date(p.data_emissao).toLocaleDateString("pt-BR")}</td>
-                <td className="p-3 text-gray-500">
+                <td className="p-3 text-muted">
                   {p.data_previsao
                     ? new Date(p.data_previsao).toLocaleDateString("pt-BR")
                     : "—"}
@@ -225,7 +225,7 @@ export default function ComprasPage() {
             ))}
             {pedidos.length === 0 && (
               <tr>
-                <td colSpan={7} className="p-8 text-center text-gray-400">
+                <td colSpan={7} className="p-8 text-center text-muted">
                   Nenhum pedido encontrado
                 </td>
               </tr>
@@ -240,7 +240,7 @@ export default function ComprasPage() {
           <div className="card w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-semibold text-lg">Novo Pedido de Compra</h2>
-              <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setShowModal(false)} className="text-muted hover:text-gray-600">
                 <X size={20} />
               </button>
             </div>

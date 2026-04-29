@@ -3,17 +3,45 @@
  * DESIGN SYSTEM — SISTEMA ERP INDUSTRIAL
  * ================================================================
  *
- * Este arquivo é a fonte única de verdade para todos os tokens
- * visuais do projeto. Para alterar qualquer aspecto visual,
- * modifique apenas as variáveis CSS na seção :root abaixo.
- * Os tokens são consumidos pelo tailwind.config.ts, que expõe
- * as classes utilitárias (bg-primary, text-success, etc.).
+ * FONTE ÚNICA DE VERDADE
+ *   Todos os valores visuais do projeto vivem aqui, na seção :root
+ *   abaixo, como CSS custom properties (variáveis CSS).
+ *   Para mudar qualquer cor, fonte, raio ou sombra: edite apenas
+ *   a variável correspondente no :root — nenhum componente .tsx
+ *   precisa ser tocado.
  *
- * ESTRUTURA
- *   :root ............. tokens CSS custom properties
- *   @tailwind ......... diretivas do Tailwind
- *   @layer base ....... reset mínimo aplicado ao body
- *   @layer components . classes reutilizáveis (.btn, .card, etc.)
+ * COMO CONSUMIR NOS COMPONENTES
+ *   O tailwind.config.ts lê cada variável via var() e expõe classes
+ *   utilitárias Tailwind. Use essas classes nos .tsx:
+ *
+ *     bg-primary          ← var(--color-primary)
+ *     text-success        ← var(--color-success)
+ *     bg-danger-tint      ← var(--color-danger-tint)
+ *     bg-sidebar          ← var(--color-sidebar-bg)
+ *     bg-page             ← var(--color-page-bg)
+ *     bg-surface          ← var(--color-surface)
+ *     text-muted          ← var(--color-text-muted)
+ *     bg-tax-icms         ← var(--color-tax-icms)
+ *     ... (ver lista completa em tailwind.config.ts)
+ *
+ * ================================================================
+ * REGRAS DE USO — PROIBIDO USAR CLASSES TAILWIND DIRETAS DE COR
+ * ----------------------------------------------------------------
+ *   ✗  bg-green-100  text-green-700    →  ✓  bg-success-subtle  text-success-dark
+ *   ✗  bg-red-50     text-red-600      →  ✓  bg-danger-tint     text-danger
+ *   ✗  bg-yellow-100 text-yellow-800   →  ✓  bg-warning-subtle  text-warning-dark
+ *   ✗  bg-orange-600 text-orange-600   →  ✓  bg-tax-icms        text-tax-icms
+ *   ✗  bg-purple-600 text-purple-600   →  ✓  bg-tax-pis         text-tax-pis
+ *   ✗  bg-white                        →  ✓  bg-surface
+ *   ✗  bg-gray-50    hover:bg-gray-50  →  ✓  bg-page            hover:bg-page
+ *   ✗  bg-gray-900   (fora da sidebar) →  ✓  bg-sidebar
+ *   ✗  text-gray-500 text-gray-400     →  ✓  text-muted
+ *
+ *   EXCEÇÕES ACEITAS (cores estruturais sem equivalente semântico):
+ *   • gray-100 a gray-300 em bordas internas, tabelas, seções
+ *   • text-gray-600, text-gray-700, text-gray-900 em tipografia de layout
+ *   • Cores decorativas de ícones de módulo (bg-orange-500, bg-purple-600
+ *     nos stat cards do dashboard usam tax-icms/tax-pis)
  *
  * ================================================================
  * PALETA DE CORES
@@ -43,6 +71,15 @@
  *   --color-warning-subtle  #fef9c3   yellow-100  fundo de badge
  *   --color-warning-dark    #854d0e   yellow-800  texto em badge
  *   --color-warning-tint    #fefce8   yellow-50   fundo muito sutil
+ *
+ * Fiscal — ICMS
+ *   --color-tax-icms        #ea580c   orange-600  ICMS (imposto)
+ *   --color-tax-icms-dark   #c2410c   orange-700  texto em fundo ICMS
+ *   --color-tax-icms-tint   #fff7ed   orange-50   fundo muito sutil ICMS
+ *
+ * Fiscal — PIS/COFINS
+ *   --color-tax-pis         #9333ea   purple-600  PIS/COFINS
+ *   --color-tax-pis-dark    #7e22ce   purple-700  texto em fundo PIS
  *
  * Superfícies
  *   --color-page-bg         #f9fafb   gray-50     fundo de páginas
@@ -119,6 +156,15 @@
   --color-warning-subtle: #fef9c3;
   --color-warning-dark:   #854d0e;
   --color-warning-tint:   #fefce8;
+
+  /* Fiscal — ICMS */
+  --color-tax-icms:       #ea580c;
+  --color-tax-icms-dark:  #c2410c;
+  --color-tax-icms-tint:  #fff7ed;
+
+  /* Fiscal — PIS/COFINS */
+  --color-tax-pis:        #9333ea;
+  --color-tax-pis-dark:   #7e22ce;
 
   /* Superfícies */
   --color-page-bg:        #f9fafb;

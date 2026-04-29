@@ -21,7 +21,7 @@ function StatCard({ title, value, icon: Icon, color, alert }: {
         <Icon size={20} className="text-white" />
       </div>
       <div>
-        <p className="text-sm text-gray-500">{title}</p>
+        <p className="text-sm text-muted">{title}</p>
         <p className="text-2xl font-bold mt-0.5">{value}</p>
       </div>
     </div>
@@ -35,12 +35,12 @@ export default function DashboardPage() {
     api.get("/dashboard/resumo").then((r) => setResumo(r.data));
   }, []);
 
-  if (!resumo) return <div className="text-gray-400">Carregando...</div>;
+  if (!resumo) return <div className="text-muted">Carregando...</div>;
 
   return (
     <div>
       <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
-      <p className="text-sm text-gray-400 mb-6">
+      <p className="text-sm text-muted mb-6">
         {new Date(resumo.data).toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" })}
       </p>
 
@@ -55,14 +55,14 @@ export default function DashboardPage() {
           title="Pedidos p/ expedir"
           value={resumo.pedidos_pendentes_expedicao}
           icon={Truck}
-          color="bg-orange-500"
+          color="bg-tax-icms-tint0"
           alert={resumo.pedidos_pendentes_expedicao > 5}
         />
         <StatCard
           title="Lotes no banho"
           value={resumo.lotes_no_banho}
           icon={Clock}
-          color="bg-purple-600"
+          color="bg-tax-pis"
         />
         <StatCard
           title="Banhos atrasados"

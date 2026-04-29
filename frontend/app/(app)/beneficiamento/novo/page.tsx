@@ -99,7 +99,7 @@ export default function NovoBeneficiamentoPage() {
   return (
     <div className="max-w-3xl">
       <div className="flex items-center gap-3 mb-6">
-        <a href="/beneficiamento" className="text-gray-400 hover:text-gray-600">
+        <a href="/beneficiamento" className="text-muted hover:text-gray-600">
           <ChevronLeft size={20} />
         </a>
         <h1 className="text-2xl font-bold">Novo Lote de Beneficiamento</h1>
@@ -164,9 +164,9 @@ export default function NovoBeneficiamentoPage() {
 
           <div className="space-y-4">
             {itens.map((item, i) => (
-              <div key={i} className="p-4 bg-gray-50 rounded-lg space-y-3">
+              <div key={i} className="p-4 bg-page rounded-lg space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-gray-500">Item {i + 1}</span>
+                  <span className="text-xs font-medium text-muted">Item {i + 1}</span>
                   {itens.length > 1 && (
                     <button type="button" onClick={() => removeItem(i)}
                       className="text-danger hover:text-danger">

@@ -197,7 +197,7 @@ export default function RecebimentoPage() {
               {itens.map((item, i) => {
                 const subtotal = (parseFloat(item.quantidade) || 0) * (parseFloat(item.preco_unitario) || 0);
                 return (
-                  <div key={i} className="border border-gray-200 rounded-lg bg-gray-50">
+                  <div key={i} className="border border-gray-200 rounded-lg bg-page">
                     <div className="flex gap-2 items-end p-3">
                       <div className="flex-1">
                         {i === 0 && <label className="label">Produto</label>}
@@ -225,7 +225,7 @@ export default function RecebimentoPage() {
                         {i === 0 && <label className="label">Subtotal</label>}
                         <div className="py-2 font-semibold text-gray-700">{moeda(subtotal)}</div>
                       </div>
-                      <button type="button" onClick={() => toggleExpandido(i)} className="text-gray-400 hover:text-gray-600 mt-4" title="Alíquotas fiscais">
+                      <button type="button" onClick={() => toggleExpandido(i)} className="text-muted hover:text-gray-600 mt-4" title="Alíquotas fiscais">
                         {item.expandido ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                       </button>
                       <button type="button" onClick={() => removeItem(i)} className="text-danger hover:text-danger mt-4">
@@ -233,8 +233,8 @@ export default function RecebimentoPage() {
                       </button>
                     </div>
                     {item.expandido && (
-                      <div className="px-3 pb-3 pt-1 border-t border-gray-200 bg-white rounded-b-lg">
-                        <p className="text-xs text-gray-400 mb-2">Alíquotas fiscais (crédito na entrada)</p>
+                      <div className="px-3 pb-3 pt-1 border-t border-gray-200 bg-surface rounded-b-lg">
+                        <p className="text-xs text-muted mb-2">Alíquotas fiscais (crédito na entrada)</p>
                         <div className="grid grid-cols-4 gap-2">
                           {(["aliq_icms", "aliq_ipi", "aliq_pis", "aliq_cofins"] as const).map(f => (
                             <div key={f}>
@@ -247,10 +247,10 @@ export default function RecebimentoPage() {
                           ))}
                         </div>
                         <div className="flex gap-4 mt-2 text-xs">
-                          {parseFloat(item.aliq_icms) > 0 && <span className="text-orange-600">ICMS crédito: {moeda(subtotal * parseFloat(item.aliq_icms) / 100)}</span>}
+                          {parseFloat(item.aliq_icms) > 0 && <span className="text-tax-icms">ICMS crédito: {moeda(subtotal * parseFloat(item.aliq_icms) / 100)}</span>}
                           {parseFloat(item.aliq_ipi) > 0 && <span className="text-primary">IPI: {moeda(subtotal * parseFloat(item.aliq_ipi) / 100)}</span>}
                           {(parseFloat(item.aliq_pis) + parseFloat(item.aliq_cofins)) > 0 && (
-                            <span className="text-purple-600">PIS/COFINS: {moeda(subtotal * (parseFloat(item.aliq_pis) + parseFloat(item.aliq_cofins)) / 100)}</span>
+                            <span className="text-tax-pis">PIS/COFINS: {moeda(subtotal * (parseFloat(item.aliq_pis) + parseFloat(item.aliq_cofins)) / 100)}</span>
                           )}
                         </div>
                       </div>
@@ -262,8 +262,8 @@ export default function RecebimentoPage() {
           </div>
 
           <div className="flex justify-end gap-8 text-sm border-t pt-3">
-            <span className="text-gray-500">Produtos: <strong>{moeda(totalItens)}</strong></span>
-            {parseFloat(form.valor_frete) > 0 && <span className="text-gray-500">Frete: <strong>{moeda(parseFloat(form.valor_frete))}</strong></span>}
+            <span className="text-muted">Produtos: <strong>{moeda(totalItens)}</strong></span>
+            {parseFloat(form.valor_frete) > 0 && <span className="text-muted">Frete: <strong>{moeda(parseFloat(form.valor_frete))}</strong></span>}
             <span className="text-gray-900 font-bold">Total: {moeda(totalGeral)}</span>
           </div>
 
@@ -277,31 +277,31 @@ export default function RecebimentoPage() {
 
       <div className="card">
         <div className="p-4 border-b flex items-center gap-2">
-          <Package size={16} className="text-gray-400" />
+          <Package size={16} className="text-muted" />
           <h2 className="font-semibold text-gray-700">Entradas Registradas</h2>
         </div>
         {notas.length === 0 ? (
-          <p className="p-6 text-center text-gray-400">Nenhuma entrada registrada ainda.</p>
+          <p className="p-6 text-center text-muted">Nenhuma entrada registrada ainda.</p>
         ) : (
           <table className="w-full text-sm">
-            <thead className="bg-gray-50">
+            <thead className="bg-page">
               <tr>
-                <th className="px-4 py-2 text-left text-gray-500 font-medium">NF</th>
-                <th className="px-4 py-2 text-left text-gray-500 font-medium">Tipo</th>
-                <th className="px-4 py-2 text-left text-gray-500 font-medium">Fornecedor</th>
-                <th className="px-4 py-2 text-left text-gray-500 font-medium">Data Entrada</th>
-                <th className="px-4 py-2 text-right text-gray-500 font-medium">Total Produtos</th>
+                <th className="px-4 py-2 text-left text-muted font-medium">NF</th>
+                <th className="px-4 py-2 text-left text-muted font-medium">Tipo</th>
+                <th className="px-4 py-2 text-left text-muted font-medium">Fornecedor</th>
+                <th className="px-4 py-2 text-left text-muted font-medium">Data Entrada</th>
+                <th className="px-4 py-2 text-right text-muted font-medium">Total Produtos</th>
               </tr>
             </thead>
             <tbody>
               {notas.map(n => (
-                <tr key={n.id} className="border-t hover:bg-gray-50">
+                <tr key={n.id} className="border-t hover:bg-page">
                   <td className="px-4 py-2 font-mono">{n.numero_nf}</td>
                   <td className="px-4 py-2">
                     <span className="badge-blue text-xs">{n.tipo_entrada.replace(/_/g, " ")}</span>
                   </td>
                   <td className="px-4 py-2 text-gray-600">{fornNome(n.fornecedor_id)}</td>
-                  <td className="px-4 py-2 text-gray-500">{new Date(n.data_entrada).toLocaleDateString("pt-BR")}</td>
+                  <td className="px-4 py-2 text-muted">{new Date(n.data_entrada).toLocaleDateString("pt-BR")}</td>
                   <td className="px-4 py-2 text-right font-semibold">{moeda(n.valor_total_produtos || 0)}</td>
                 </tr>
               ))}

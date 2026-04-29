@@ -123,7 +123,7 @@ export default function NovoVendaPage() {
   return (
     <div className="max-w-3xl">
       <div className="flex items-center gap-3 mb-6">
-        <a href="/vendas" className="text-gray-400 hover:text-gray-600"><ChevronLeft size={20} /></a>
+        <a href="/vendas" className="text-muted hover:text-gray-600"><ChevronLeft size={20} /></a>
         <h1 className="text-2xl font-bold">Novo Pedido de Venda</h1>
       </div>
 
@@ -195,7 +195,7 @@ export default function NovoVendaPage() {
               const c = calcs[i];
               const prodSel = produtos.find((p) => String(p.id) === item.produto_id);
               return (
-                <div key={i} className={`p-3 rounded-lg border ${c.negativo ? "bg-warning-tint border-warning-subtle" : "bg-gray-50 border-gray-200"}`}>
+                <div key={i} className={`p-3 rounded-lg border ${c.negativo ? "bg-warning-tint border-warning-subtle" : "bg-page border-gray-200"}`}>
                   <div className="flex gap-2 items-start">
                     <div className="flex-1">
                       {i === 0 && <label className="label">Produto</label>}
@@ -234,11 +234,11 @@ export default function NovoVendaPage() {
                   </div>
                   {/* Impostos de saída por item */}
                   {c.liquido > 0 && prodSel && (
-                    <div className="flex gap-3 text-xs mt-2 pt-2 border-t border-gray-200 text-gray-500">
+                    <div className="flex gap-3 text-xs mt-2 pt-2 border-t border-gray-200 text-muted">
                       <span>Impostos saída:</span>
-                      {c.icms > 0 && <span className="text-orange-600">ICMS {moeda(c.icms)} ({Number(prodSel.aliq_icms)}%)</span>}
+                      {c.icms > 0 && <span className="text-tax-icms">ICMS {moeda(c.icms)} ({Number(prodSel.aliq_icms)}%)</span>}
                       {c.ipi > 0 && <span className="text-primary">IPI {moeda(c.ipi)}</span>}
-                      {(c.pis + c.cofins) > 0 && <span className="text-purple-600">PIS/COFINS {moeda(c.pis + c.cofins)}</span>}
+                      {(c.pis + c.cofins) > 0 && <span className="text-tax-pis">PIS/COFINS {moeda(c.pis + c.cofins)}</span>}
                     </div>
                   )}
                 </div>
@@ -248,18 +248,18 @@ export default function NovoVendaPage() {
 
           {/* Totais */}
           <div className="mt-4 pt-4 border-t space-y-1 text-sm">
-            <div className="flex justify-between text-gray-500"><span>Produtos (líquido)</span><span>{moeda(totalLiquido)}</span></div>
-            {totalFrete > 0 && <div className="flex justify-between text-gray-500"><span>Frete</span><span>{moeda(totalFrete)}</span></div>}
-            {totalIpi > 0 && <div className="flex justify-between text-gray-500"><span>IPI</span><span>{moeda(totalIpi)}</span></div>}
+            <div className="flex justify-between text-muted"><span>Produtos (líquido)</span><span>{moeda(totalLiquido)}</span></div>
+            {totalFrete > 0 && <div className="flex justify-between text-muted"><span>Frete</span><span>{moeda(totalFrete)}</span></div>}
+            {totalIpi > 0 && <div className="flex justify-between text-muted"><span>IPI</span><span>{moeda(totalIpi)}</span></div>}
             <div className="flex justify-between font-bold text-gray-900 text-base pt-1 border-t"><span>Total NF-e</span><span>{moeda(totalGeral)}</span></div>
           </div>
 
           {/* Resumo fiscal saída */}
           {totalIcms > 0 && (
             <div className="mt-3 pt-3 border-t">
-              <p className="text-xs text-gray-400 mb-2">Impostos na saída (estimativa):</p>
+              <p className="text-xs text-muted mb-2">Impostos na saída (estimativa):</p>
               <div className="flex gap-3 text-xs">
-                <span className="bg-orange-50 text-orange-700 px-2 py-1 rounded">ICMS {moeda(totalIcms)}</span>
+                <span className="bg-tax-icms-tint text-tax-icms-dark px-2 py-1 rounded">ICMS {moeda(totalIcms)}</span>
                 {totalIpi > 0 && <span className="bg-primary-tint text-primary-dark px-2 py-1 rounded">IPI {moeda(totalIpi)}</span>}
               </div>
             </div>

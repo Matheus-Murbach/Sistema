@@ -101,7 +101,7 @@ export default function PrestadoresPage() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <a href="/cadastros" className="text-gray-400 hover:text-gray-600">
+        <a href="/cadastros" className="text-muted hover:text-gray-600">
           <ChevronLeft size={20} />
         </a>
         <h1 className="text-2xl font-bold flex-1">Prestadores de Beneficiamento</h1>
@@ -111,7 +111,7 @@ export default function PrestadoresPage() {
       </div>
 
       <div className="relative mb-4">
-        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
         <input
           className="input pl-9"
           placeholder="Buscar por razão social ou CNPJ..."
@@ -122,7 +122,7 @@ export default function PrestadoresPage() {
 
       <div className="card overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-page border-b">
             <tr>
               <th className="text-left p-3 font-medium text-gray-600">Razão Social</th>
               <th className="text-left p-3 font-medium text-gray-600">CNPJ</th>
@@ -134,15 +134,15 @@ export default function PrestadoresPage() {
           </thead>
           <tbody>
             {prestadores.map((p) => (
-              <tr key={p.id} className="border-b last:border-0 hover:bg-gray-50">
+              <tr key={p.id} className="border-b last:border-0 hover:bg-page">
                 <td className="p-3">
                   <div className="font-medium">{p.razao_social}</div>
-                  {p.nome_fantasia && <div className="text-xs text-gray-400">{p.nome_fantasia}</div>}
+                  {p.nome_fantasia && <div className="text-xs text-muted">{p.nome_fantasia}</div>}
                 </td>
                 <td className="p-3 font-mono text-xs">{p.cnpj_cpf}</td>
                 <td className="p-3 text-gray-600">{p.tipo_beneficiamento || "—"}</td>
-                <td className="p-3 text-right text-gray-500">{p.prazo_retorno_dias} dias</td>
-                <td className="p-3 text-right text-gray-500">{p.percentual_perda_esperado}%</td>
+                <td className="p-3 text-right text-muted">{p.prazo_retorno_dias} dias</td>
+                <td className="p-3 text-right text-muted">{p.percentual_perda_esperado}%</td>
                 <td className="p-3 text-right">
                   <button onClick={() => openEditar(p)} className="text-primary text-xs hover:underline">
                     Editar
@@ -152,7 +152,7 @@ export default function PrestadoresPage() {
             ))}
             {prestadores.length === 0 && (
               <tr>
-                <td colSpan={6} className="p-8 text-center text-gray-400">Nenhum prestador encontrado</td>
+                <td colSpan={6} className="p-8 text-center text-muted">Nenhum prestador encontrado</td>
               </tr>
             )}
           </tbody>
@@ -164,7 +164,7 @@ export default function PrestadoresPage() {
           <div className="card w-full max-w-lg max-h-[90vh] overflow-y-auto p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-semibold text-lg">{editId ? "Editar Prestador" : "Novo Prestador"}</h2>
-              <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setShowModal(false)} className="text-muted hover:text-gray-600">
                 <X size={20} />
               </button>
             </div>

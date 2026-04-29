@@ -48,7 +48,7 @@ export default function BeneficiamentoPage() {
             key={f}
             onClick={() => setFiltro(f)}
             className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-              filtro === f ? "bg-primary-hover text-white" : "bg-white border text-gray-600 hover:bg-gray-50"
+              filtro === f ? "bg-primary-hover text-white" : "bg-surface border text-gray-600 hover:bg-page"
             }`}
           >
             {f === "em-transito" ? "Em Trânsito" : "Retornados"}
@@ -58,7 +58,7 @@ export default function BeneficiamentoPage() {
 
       <div className="card overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-page border-b">
             <tr>
               <th className="text-left p-3 font-medium text-gray-600">Lote</th>
               <th className="text-left p-3 font-medium text-gray-600">Tipo</th>
@@ -73,7 +73,7 @@ export default function BeneficiamentoPage() {
               const previsao = lote.data_previsao_retorno ? new Date(lote.data_previsao_retorno) : null;
               const atrasado = previsao && previsao < hoje && lote.status !== "RETORNADO";
               return (
-                <tr key={lote.id} className="border-b last:border-0 hover:bg-gray-50">
+                <tr key={lote.id} className="border-b last:border-0 hover:bg-page">
                   <td className="p-3 font-mono text-xs font-bold">{lote.numero}</td>
                   <td className="p-3">{lote.tipo_beneficiamento || "—"}</td>
                   <td className="p-3">{new Date(lote.data_remessa).toLocaleDateString("pt-BR")}</td>
@@ -103,7 +103,7 @@ export default function BeneficiamentoPage() {
               );
             })}
             {lotes.length === 0 && (
-              <tr><td colSpan={6} className="p-8 text-center text-gray-400">
+              <tr><td colSpan={6} className="p-8 text-center text-muted">
                 Nenhum lote encontrado
               </td></tr>
             )}

@@ -84,7 +84,7 @@ export default function ProducaoPage() {
           <div className="grid grid-cols-2 gap-4">
             {/* MP */}
             <div className="space-y-3">
-              <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">Consome</h3>
+              <h3 className="text-sm font-medium text-muted uppercase tracking-wide">Consome</h3>
               <div>
                 <label className="label">Matéria-Prima *</label>
                 <select className="input" required value={conv.produto_mp_id} onChange={e => setConv({ ...conv, produto_mp_id: e.target.value })}>
@@ -107,7 +107,7 @@ export default function ProducaoPage() {
             </div>
             {/* PA */}
             <div className="space-y-3">
-              <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">Produz</h3>
+              <h3 className="text-sm font-medium text-muted uppercase tracking-wide">Produz</h3>
               <div>
                 <label className="label">Produto Acabado *</label>
                 <select className="input" required value={conv.produto_pa_id} onChange={e => setConv({ ...conv, produto_pa_id: e.target.value })}>
@@ -153,25 +153,25 @@ export default function ProducaoPage() {
           <h2 className="font-semibold text-gray-700">Conversões Recentes</h2>
         </div>
         {ops.length === 0 ? (
-          <p className="p-6 text-center text-gray-400">Nenhuma conversão registrada ainda.</p>
+          <p className="p-6 text-center text-muted">Nenhuma conversão registrada ainda.</p>
         ) : (
           <table className="w-full text-sm">
-            <thead className="bg-gray-50">
+            <thead className="bg-page">
               <tr>
-                <th className="px-4 py-2 text-left text-gray-500 font-medium">OP</th>
-                <th className="px-4 py-2 text-left text-gray-500 font-medium">Produto Acabado</th>
-                <th className="px-4 py-2 text-right text-gray-500 font-medium">Qtd Produzida</th>
-                <th className="px-4 py-2 text-left text-gray-500 font-medium">Data</th>
-                <th className="px-4 py-2 text-left text-gray-500 font-medium">Status</th>
+                <th className="px-4 py-2 text-left text-muted font-medium">OP</th>
+                <th className="px-4 py-2 text-left text-muted font-medium">Produto Acabado</th>
+                <th className="px-4 py-2 text-right text-muted font-medium">Qtd Produzida</th>
+                <th className="px-4 py-2 text-left text-muted font-medium">Data</th>
+                <th className="px-4 py-2 text-left text-muted font-medium">Status</th>
               </tr>
             </thead>
             <tbody>
               {ops.map(op => (
-                <tr key={op.id} className="border-t hover:bg-gray-50">
+                <tr key={op.id} className="border-t hover:bg-page">
                   <td className="px-4 py-2 font-mono text-xs">{op.numero}</td>
                   <td className="px-4 py-2 text-gray-700">{prodNome(op.produto_id)}</td>
                   <td className="px-4 py-2 text-right font-semibold">{op.quantidade_produzida ?? op.quantidade_planejada}</td>
-                  <td className="px-4 py-2 text-gray-500">{new Date(op.criado_em).toLocaleDateString("pt-BR")}</td>
+                  <td className="px-4 py-2 text-muted">{new Date(op.criado_em).toLocaleDateString("pt-BR")}</td>
                   <td className="px-4 py-2">
                     <span className="badge-green text-xs">CONCLUÍDA</span>
                   </td>

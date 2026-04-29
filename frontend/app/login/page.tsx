@@ -34,7 +34,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="card w-full max-w-md p-8">
         <h1 className="text-2xl font-bold mb-2">Sistema ERP Industrial</h1>
-        <p className="text-sm text-gray-500 mb-6">Faça login para continuar</p>
+        <p className="text-sm text-muted mb-6">Faça login para continuar</p>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label className="label">E-mail</label>

@@ -135,7 +135,7 @@ export default function ProdutosPage() {
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <a href="/cadastros" className="text-gray-400 hover:text-gray-600">
+        <a href="/cadastros" className="text-muted hover:text-gray-600">
           <ChevronLeft size={20} />
         </a>
         <h1 className="text-2xl font-bold flex-1">Produtos</h1>
@@ -145,7 +145,7 @@ export default function ProdutosPage() {
       </div>
 
       <div className="relative mb-4">
-        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
         <input
           className="input pl-9"
           placeholder="Buscar por código ou descrição..."
@@ -156,7 +156,7 @@ export default function ProdutosPage() {
 
       <div className="card overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-page border-b">
             <tr>
               <th className="text-left p-3 font-medium text-gray-600">Código</th>
               <th className="text-left p-3 font-medium text-gray-600">Descrição</th>
@@ -169,7 +169,7 @@ export default function ProdutosPage() {
           </thead>
           <tbody>
             {produtos.map((p) => (
-              <tr key={p.id} className="border-b last:border-0 hover:bg-gray-50">
+              <tr key={p.id} className="border-b last:border-0 hover:bg-page">
                 <td className="p-3 font-mono text-xs font-bold">{p.codigo}</td>
                 <td className="p-3">{p.descricao}</td>
                 <td className="p-3">
@@ -177,9 +177,9 @@ export default function ProdutosPage() {
                     {TIPO_LABEL[p.tipo] || p.tipo}
                   </span>
                 </td>
-                <td className="p-3 font-mono text-xs text-gray-500">{p.ncm || "—"}</td>
+                <td className="p-3 font-mono text-xs text-muted">{p.ncm || "—"}</td>
                 <td className="p-3 text-right">{moeda(Number(p.preco_venda))}</td>
-                <td className="p-3 text-right text-gray-500">{p.estoque_minimo}</td>
+                <td className="p-3 text-right text-muted">{p.estoque_minimo}</td>
                 <td className="p-3 text-right">
                   <button
                     onClick={() => openEditar(p)}
@@ -192,7 +192,7 @@ export default function ProdutosPage() {
             ))}
             {produtos.length === 0 && (
               <tr>
-                <td colSpan={7} className="p-8 text-center text-gray-400">
+                <td colSpan={7} className="p-8 text-center text-muted">
                   Nenhum produto encontrado
                 </td>
               </tr>
@@ -206,7 +206,7 @@ export default function ProdutosPage() {
           <div className="card w-full max-w-lg max-h-[90vh] overflow-y-auto p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-semibold text-lg">{editId ? "Editar Produto" : "Novo Produto"}</h2>
-              <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setShowModal(false)} className="text-muted hover:text-gray-600">
                 <X size={20} />
               </button>
             </div>

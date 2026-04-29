@@ -74,7 +74,7 @@ export default function DetalheLotePage() {
     return prestadores.find((p) => p.id === pid)?.razao_social || `Prestador #${pid}`;
   }
 
-  if (!lote) return <div className="text-gray-400">Carregando...</div>;
+  if (!lote) return <div className="text-muted">Carregando...</div>;
 
   const hoje = new Date();
   const previsao = lote.data_previsao_retorno ? new Date(lote.data_previsao_retorno) : null;
@@ -93,12 +93,12 @@ export default function DetalheLotePage() {
   return (
     <div className="max-w-3xl">
       <div className="flex items-center gap-3 mb-6">
-        <a href="/beneficiamento" className="text-gray-400 hover:text-gray-600">
+        <a href="/beneficiamento" className="text-muted hover:text-gray-600">
           <ChevronLeft size={20} />
         </a>
         <div className="flex-1">
           <h1 className="text-2xl font-bold">{lote.numero}</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{nomePrestador(lote.prestador_id)}</p>
+          <p className="text-sm text-muted mt-0.5">{nomePrestador(lote.prestador_id)}</p>
         </div>
         <span className={STATUS_BADGE[lote.status] || "badge-gray"}>
           {STATUS_LABEL[lote.status] || lote.status}
@@ -118,15 +118,15 @@ export default function DetalheLotePage() {
       {/* Cards de resumo */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="card p-4 text-center">
-          <p className="text-xs text-gray-500 mb-1">Enviado</p>
+          <p className="text-xs text-muted mb-1">Enviado</p>
           <p className="text-2xl font-bold text-gray-900">{totalEnviado.toLocaleString("pt-BR")}</p>
         </div>
         <div className="card p-4 text-center">
-          <p className="text-xs text-gray-500 mb-1">Retornado</p>
+          <p className="text-xs text-muted mb-1">Retornado</p>
           <p className="text-2xl font-bold text-success-dark">{totalRetornado.toLocaleString("pt-BR")}</p>
         </div>
         <div className="card p-4 text-center">
-          <p className="text-xs text-gray-500 mb-1">Rejeitado</p>
+          <p className="text-xs text-muted mb-1">Rejeitado</p>
           <p className="text-2xl font-bold text-danger">{totalRejeitado.toLocaleString("pt-BR")}</p>
         </div>
       </div>
@@ -134,21 +134,21 @@ export default function DetalheLotePage() {
       {/* Informações gerais */}
       <div className="card p-6 mb-6 grid grid-cols-2 gap-4 text-sm">
         <div>
-          <p className="text-gray-500">Tipo de Beneficiamento</p>
+          <p className="text-muted">Tipo de Beneficiamento</p>
           <p className="font-medium">{lote.tipo_beneficiamento || "—"}</p>
         </div>
         <div>
-          <p className="text-gray-500">Data de Remessa</p>
+          <p className="text-muted">Data de Remessa</p>
           <p className="font-medium">{new Date(lote.data_remessa).toLocaleDateString("pt-BR")}</p>
         </div>
         <div>
-          <p className="text-gray-500">Previsão de Retorno</p>
+          <p className="text-muted">Previsão de Retorno</p>
           <p className={`font-medium ${atrasado ? "text-danger" : ""}`}>
             {previsao ? previsao.toLocaleDateString("pt-BR") : "—"}
           </p>
         </div>
         <div>
-          <p className="text-gray-500">Retorno Real</p>
+          <p className="text-muted">Retorno Real</p>
           <p className="font-medium">
             {lote.data_retorno_real
               ? new Date(lote.data_retorno_real).toLocaleDateString("pt-BR")
@@ -156,28 +156,28 @@ export default function DetalheLotePage() {
           </p>
         </div>
         <div>
-          <p className="text-gray-500">CFOP Remessa / Retorno</p>
+          <p className="text-muted">CFOP Remessa / Retorno</p>
           <p className="font-mono font-medium">{lote.cfop_remessa} / {lote.cfop_retorno}</p>
         </div>
         <div>
-          <p className="text-gray-500">NF de Retorno</p>
+          <p className="text-muted">NF de Retorno</p>
           <p className="font-medium">{lote.nf_retorno_numero || "—"}</p>
         </div>
         {lote.valor_servico != null && (
           <div>
-            <p className="text-gray-500">Valor do Serviço</p>
+            <p className="text-muted">Valor do Serviço</p>
             <p className="font-medium">{moeda(Number(lote.valor_servico))}</p>
           </div>
         )}
         {lote.valor_insumos != null && Number(lote.valor_insumos) > 0 && (
           <div>
-            <p className="text-gray-500">Valor dos Insumos</p>
+            <p className="text-muted">Valor dos Insumos</p>
             <p className="font-medium">{moeda(Number(lote.valor_insumos))}</p>
           </div>
         )}
         {lote.observacoes && (
           <div className="col-span-2">
-            <p className="text-gray-500">Observações</p>
+            <p className="text-muted">Observações</p>
             <p className="font-medium">{lote.observacoes}</p>
           </div>
         )}
@@ -185,16 +185,16 @@ export default function DetalheLotePage() {
 
       {/* Itens */}
       <div className="card overflow-hidden mb-6">
-        <div className="p-4 border-b bg-gray-50 flex items-center justify-between">
+        <div className="p-4 border-b bg-page flex items-center justify-between">
           <h2 className="font-semibold text-gray-700">Itens do Lote</h2>
           {totalEnviado > 0 && (
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-muted">
               Retorno: {pctRetorno}%
             </span>
           )}
         </div>
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-page border-b">
             <tr>
               <th className="text-left p-3 font-medium text-gray-600">Produto Enviado</th>
               <th className="text-left p-3 font-medium text-gray-600">Produto Retorno</th>
@@ -206,9 +206,9 @@ export default function DetalheLotePage() {
           </thead>
           <tbody>
             {(lote.itens ?? []).map((item) => (
-              <tr key={item.id} className="border-b last:border-0 hover:bg-gray-50">
+              <tr key={item.id} className="border-b last:border-0 hover:bg-page">
                 <td className="p-3">{nomeProduto(item.produto_enviado_id)}</td>
-                <td className="p-3 text-gray-500">
+                <td className="p-3 text-muted">
                   {item.produto_retorno_id ? nomeProduto(item.produto_retorno_id) : "Mesmo produto"}
                 </td>
                 <td className="p-3 text-right">{Number(item.quantidade_enviada).toLocaleString("pt-BR")}</td>
@@ -233,7 +233,7 @@ export default function DetalheLotePage() {
             ))}
             {(!lote.itens || lote.itens.length === 0) && (
               <tr>
-                <td colSpan={6} className="p-6 text-center text-gray-400">Sem itens</td>
+                <td colSpan={6} className="p-6 text-center text-muted">Sem itens</td>
               </tr>
             )}
           </tbody>

@@ -80,7 +80,7 @@ export default function ExpedicaoPage() {
           )}
         </h2>
         {prontos.length === 0 ? (
-          <div className="card p-8 text-center text-gray-400">
+          <div className="card p-8 text-center text-muted">
             <CheckCircle2 size={32} className="mx-auto mb-2 text-gray-300" />
             <p>Nenhum pedido pronto para expedição.</p>
             <p className="text-sm mt-1">Pedidos concluídos na separação aparecerão aqui.</p>
@@ -93,22 +93,22 @@ export default function ExpedicaoPage() {
               return (
                 <div key={p.id} className="border border-gray-200 rounded-lg overflow-hidden">
                   <div
-                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50"
+                    className="flex items-center justify-between p-4 cursor-pointer hover:bg-page"
                     onClick={() => toggleExpand(p.id)}
                   >
                     <div>
                       <span className="font-mono font-semibold text-gray-800">{p.numero}</span>
-                      <span className="text-gray-500 ml-3">{clientes[p.cliente_id] || "—"}</span>
+                      <span className="text-muted ml-3">{clientes[p.cliente_id] || "—"}</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="font-semibold text-gray-700">{moeda(p.valor_total)}</span>
-                      <span className="text-xs text-gray-400">{new Date(p.criado_em).toLocaleDateString("pt-BR")}</span>
-                      {isExpanded ? <ChevronUp size={16} className="text-gray-400" /> : <ChevronDown size={16} className="text-gray-400" />}
+                      <span className="text-xs text-muted">{new Date(p.criado_em).toLocaleDateString("pt-BR")}</span>
+                      {isExpanded ? <ChevronUp size={16} className="text-muted" /> : <ChevronDown size={16} className="text-muted" />}
                     </div>
                   </div>
 
                   {isExpanded && (
-                    <div className="border-t bg-gray-50 p-4">
+                    <div className="border-t bg-page p-4">
                       <div className="grid grid-cols-2 gap-3 mb-3">
                         <div>
                           <label className="label">Transportadora</label>
@@ -155,21 +155,21 @@ export default function ExpedicaoPage() {
             <h2 className="font-semibold text-gray-700 text-sm">Expedidos Recentemente</h2>
           </div>
           <table className="w-full text-sm">
-            <thead className="bg-gray-50">
+            <thead className="bg-page">
               <tr>
-                <th className="px-4 py-2 text-left text-gray-500 font-medium">Pedido</th>
-                <th className="px-4 py-2 text-left text-gray-500 font-medium">Cliente</th>
-                <th className="px-4 py-2 text-right text-gray-500 font-medium">Valor</th>
-                <th className="px-4 py-2 text-left text-gray-500 font-medium">Data</th>
+                <th className="px-4 py-2 text-left text-muted font-medium">Pedido</th>
+                <th className="px-4 py-2 text-left text-muted font-medium">Cliente</th>
+                <th className="px-4 py-2 text-right text-muted font-medium">Valor</th>
+                <th className="px-4 py-2 text-left text-muted font-medium">Data</th>
               </tr>
             </thead>
             <tbody>
               {expedidos.map(p => (
-                <tr key={p.id} className="border-t hover:bg-gray-50">
+                <tr key={p.id} className="border-t hover:bg-page">
                   <td className="px-4 py-2 font-mono text-xs">{p.numero}</td>
                   <td className="px-4 py-2 text-gray-600">{clientes[p.cliente_id] || "—"}</td>
                   <td className="px-4 py-2 text-right font-semibold">{moeda(p.valor_total)}</td>
-                  <td className="px-4 py-2 text-gray-500">{new Date(p.criado_em).toLocaleDateString("pt-BR")}</td>
+                  <td className="px-4 py-2 text-muted">{new Date(p.criado_em).toLocaleDateString("pt-BR")}</td>
                 </tr>
               ))}
             </tbody>

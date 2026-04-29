@@ -68,20 +68,20 @@ export default function PickingPage() {
   const moeda = (v: number) => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
 
   const CardPedido = ({ pedido, acao }: { pedido: Pedido; acao?: React.ReactNode }) => (
-    <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-white hover:bg-gray-50">
+    <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-surface hover:bg-page">
       <div>
         <span className="font-mono text-sm font-semibold text-gray-800">{pedido.numero}</span>
-        <span className="text-gray-500 text-sm ml-3">{clientes[pedido.cliente_id] || "—"}</span>
+        <span className="text-muted text-sm ml-3">{clientes[pedido.cliente_id] || "—"}</span>
       </div>
       <div className="flex items-center gap-3">
         <span className="text-gray-600 text-sm font-medium">{moeda(pedido.valor_total)}</span>
-        <span className="text-xs text-gray-400">{new Date(pedido.criado_em).toLocaleDateString("pt-BR")}</span>
+        <span className="text-xs text-muted">{new Date(pedido.criado_em).toLocaleDateString("pt-BR")}</span>
         {acao}
       </div>
     </div>
   );
 
-  if (loading) return <p className="text-gray-400 p-6">Carregando...</p>;
+  if (loading) return <p className="text-muted p-6">Carregando...</p>;
 
   return (
     <div className="max-w-3xl">
@@ -102,7 +102,7 @@ export default function PickingPage() {
           )}
         </div>
         {paraIniciar.length === 0 ? (
-          <p className="text-sm text-gray-400 pl-6">Nenhum pedido aguardando separação.</p>
+          <p className="text-sm text-muted pl-6">Nenhum pedido aguardando separação.</p>
         ) : (
           <div className="space-y-2">
             {paraIniciar.map(p => (
@@ -130,14 +130,14 @@ export default function PickingPage() {
           )}
         </div>
         {emAndamento.length === 0 ? (
-          <p className="text-sm text-gray-400 pl-6">Nenhum pedido em separação.</p>
+          <p className="text-sm text-muted pl-6">Nenhum pedido em separação.</p>
         ) : (
           <div className="space-y-2">
             {emAndamento.map(p => (
               <div key={p.id} className="border border-warning-subtle bg-warning-tint rounded-lg p-3 flex items-center justify-between">
                 <div>
                   <span className="font-mono text-sm font-semibold text-gray-800">{p.numero}</span>
-                  <span className="text-gray-500 text-sm ml-3">{clientes[p.cliente_id] || "—"}</span>
+                  <span className="text-muted text-sm ml-3">{clientes[p.cliente_id] || "—"}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-gray-600 text-sm font-medium">{moeda(p.valor_total)}</span>
@@ -165,14 +165,14 @@ export default function PickingPage() {
           )}
         </div>
         {prontos.length === 0 ? (
-          <p className="text-sm text-gray-400 pl-6">Nenhum pedido aguardando expedição.</p>
+          <p className="text-sm text-muted pl-6">Nenhum pedido aguardando expedição.</p>
         ) : (
           <div className="space-y-2">
             {prontos.map(p => (
               <div key={p.id} className="border border-success-subtle bg-success-tint rounded-lg p-3 flex items-center justify-between">
                 <div>
                   <span className="font-mono text-sm font-semibold text-gray-800">{p.numero}</span>
-                  <span className="text-gray-500 text-sm ml-3">{clientes[p.cliente_id] || "—"}</span>
+                  <span className="text-muted text-sm ml-3">{clientes[p.cliente_id] || "—"}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-gray-600 text-sm font-medium">{moeda(p.valor_total)}</span>

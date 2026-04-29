@@ -38,7 +38,7 @@ export default function ConfiguracoesPage() {
   return (
     <div className="max-w-2xl">
       <div className="flex items-center gap-3 mb-6">
-        <Settings size={22} className="text-gray-500" />
+        <Settings size={22} className="text-muted" />
         <h1 className="text-2xl font-bold">Configurações</h1>
       </div>
 
@@ -52,7 +52,7 @@ export default function ConfiguracoesPage() {
       {/* Empresa */}
       <div className="card p-6 mb-4">
         <h2 className="font-semibold text-gray-700 mb-4">Dados da Empresa</h2>
-        <p className="text-sm text-gray-500 mb-4">
+        <p className="text-sm text-muted mb-4">
           As informações da empresa são configuradas via variáveis de ambiente no arquivo{" "}
           <code className="bg-gray-100 px-1 rounded font-mono text-xs">.env</code>.
           Reinicie o serviço após qualquer alteração.
@@ -72,7 +72,7 @@ export default function ConfiguracoesPage() {
               <code className="text-xs font-mono text-primary-dark bg-primary-tint px-1.5 py-0.5 rounded">
                 {label}
               </code>
-              <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
+              <p className="text-xs text-muted mt-0.5">{desc}</p>
             </div>
           ))}
         </div>
@@ -82,30 +82,30 @@ export default function ConfiguracoesPage() {
       <div className="card p-6 mb-4">
         <h2 className="font-semibold text-gray-700 mb-4">Integrações</h2>
         <div className="space-y-3 text-sm">
-          <div className="flex items-start justify-between p-3 bg-gray-50 rounded-lg">
+          <div className="flex items-start justify-between p-3 bg-page rounded-lg">
             <div>
               <p className="font-medium">Focus NF-e</p>
-              <p className="text-xs text-gray-400 mt-0.5">
+              <p className="text-xs text-muted mt-0.5">
                 Emissão de NF-e via SEFAZ. Configure{" "}
                 <code className="font-mono text-xs bg-gray-100 px-1 rounded">FOCUS_NFE_TOKEN</code> e{" "}
                 <code className="font-mono text-xs bg-gray-100 px-1 rounded">FOCUS_NFE_URL</code>.
               </p>
             </div>
           </div>
-          <div className="flex items-start justify-between p-3 bg-gray-50 rounded-lg">
+          <div className="flex items-start justify-between p-3 bg-page rounded-lg">
             <div>
               <p className="font-medium">IBPT (Alíquotas por NCM)</p>
-              <p className="text-xs text-gray-400 mt-0.5">
+              <p className="text-xs text-muted mt-0.5">
                 Busca automática de alíquotas ao cadastrar produtos. Configure{" "}
                 <code className="font-mono text-xs bg-gray-100 px-1 rounded">IBPT_TOKEN</code> e{" "}
                 <code className="font-mono text-xs bg-gray-100 px-1 rounded">IBPT_CNPJ</code>.
               </p>
             </div>
           </div>
-          <div className="flex items-start justify-between p-3 bg-gray-50 rounded-lg">
+          <div className="flex items-start justify-between p-3 bg-page rounded-lg">
             <div>
               <p className="font-medium">Certificado Digital</p>
-              <p className="text-xs text-gray-400 mt-0.5">
+              <p className="text-xs text-muted mt-0.5">
                 Configure{" "}
                 <code className="font-mono text-xs bg-gray-100 px-1 rounded">CERTIFICADO_TIPO</code> (A1/A3),{" "}
                 <code className="font-mono text-xs bg-gray-100 px-1 rounded">CERTIFICADO_PATH</code> e{" "}
@@ -124,7 +124,7 @@ export default function ConfiguracoesPage() {
             <Plus size={14} /> Novo Usuário
           </button>
         </div>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-muted">
           Crie usuários adicionais para operadores e administradores. Perfis disponíveis:{" "}
           <strong>admin</strong> (acesso total) e <strong>operador</strong> (acesso operacional).
         </p>
@@ -142,7 +142,7 @@ export default function ConfiguracoesPage() {
                 <User size={18} /> Novo Usuário
               </h2>
               <button onClick={() => { setShowModalUsuario(false); setErro(""); }}
-                className="text-gray-400 hover:text-gray-600">
+                className="text-muted hover:text-gray-600">
                 <X size={20} />
               </button>
             </div>

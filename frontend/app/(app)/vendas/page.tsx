@@ -98,7 +98,7 @@ export default function VendasPage() {
         {FILTROS.map((f) => (
           <button key={f} onClick={() => setFiltro(f)}
             className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-              filtro === f ? "bg-primary-hover text-white" : "bg-white border text-gray-600 hover:bg-gray-50"
+              filtro === f ? "bg-primary-hover text-white" : "bg-surface border text-gray-600 hover:bg-page"
             }`}>
             {f === "TODOS" ? "Todos" : STATUS_LABEL[f]}
           </button>
@@ -107,7 +107,7 @@ export default function VendasPage() {
 
       <div className="card overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-page border-b">
             <tr>
               <th className="text-left p-3 font-medium text-gray-600">Número</th>
               <th className="text-left p-3 font-medium text-gray-600">Cliente</th>
@@ -120,11 +120,11 @@ export default function VendasPage() {
           </thead>
           <tbody>
             {pedidos.map((p) => (
-              <tr key={p.id} className="border-b last:border-0 hover:bg-gray-50">
+              <tr key={p.id} className="border-b last:border-0 hover:bg-page">
                 <td className="p-3 font-mono text-xs font-bold">{p.numero}</td>
                 <td className="p-3">{nomeCliente(p.cliente_id)}</td>
                 <td className="p-3">{new Date(p.data_emissao).toLocaleDateString("pt-BR")}</td>
-                <td className="p-3 text-gray-500">
+                <td className="p-3 text-muted">
                   {p.data_previsao_entrega
                     ? new Date(p.data_previsao_entrega).toLocaleDateString("pt-BR")
                     : "—"}
@@ -144,7 +144,7 @@ export default function VendasPage() {
                   )}
                   {(p.status === "CONFIRMADO" || p.status === "EM_PICKING") && (
                     <a href={`/picking/${p.id}`}
-                      className="flex items-center gap-1 text-purple-600 text-xs hover:underline mr-3 inline-flex">
+                      className="flex items-center gap-1 text-tax-pis text-xs hover:underline mr-3 inline-flex">
                       <ClipboardCheck size={12} /> Picking
                     </a>
                   )}
@@ -159,7 +159,7 @@ export default function VendasPage() {
             ))}
             {pedidos.length === 0 && (
               <tr>
-                <td colSpan={7} className="p-8 text-center text-gray-400">
+                <td colSpan={7} className="p-8 text-center text-muted">
                   Nenhum pedido encontrado
                 </td>
               </tr>
@@ -173,7 +173,7 @@ export default function VendasPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="card w-full max-w-sm p-6">
             <h2 className="font-semibold text-lg mb-2">Confirmar Pedido?</h2>
-            <p className="text-sm text-gray-500 mb-6">
+            <p className="text-sm text-muted mb-6">
               O estoque disponível será reservado automaticamente para este pedido.
             </p>
             <div className="flex justify-end gap-3">
@@ -192,7 +192,7 @@ export default function VendasPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="card w-full max-w-sm p-6">
             <h2 className="font-semibold text-lg mb-2">Cancelar Pedido?</h2>
-            <p className="text-sm text-gray-500 mb-6">
+            <p className="text-sm text-muted mb-6">
               As reservas de estoque serão liberadas. Esta ação não pode ser desfeita.
             </p>
             <div className="flex justify-end gap-3">

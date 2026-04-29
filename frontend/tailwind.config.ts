@@ -34,8 +34,16 @@ const config: Config = {
           dark:    "var(--color-warning-dark)",
           tint:    "var(--color-warning-tint)",
         },
+        tax: {
+          icms:       "var(--color-tax-icms)",
+          "icms-dark": "var(--color-tax-icms-dark)",
+          "icms-tint": "var(--color-tax-icms-tint)",
+          pis:        "var(--color-tax-pis)",
+          "pis-dark": "var(--color-tax-pis-dark)",
+        },
         page:    "var(--color-page-bg)",
         surface: "var(--color-surface)",
+        muted:   "var(--color-text-muted)",
         sidebar: {
           DEFAULT: "var(--color-sidebar-bg)",
           text:    "var(--color-sidebar-text)",

@@ -121,7 +121,7 @@ export default function PickingPage() {
     }
   };
 
-  if (!conferencia) return <div className="p-8 text-gray-400 text-lg">Carregando conferência...</div>;
+  if (!conferencia) return <div className="p-8 text-muted text-lg">Carregando conferência...</div>;
 
   const pct = Math.round(Number(conferencia.percentual_concluido));
   const concluido = conferencia.status === "CONCLUIDO";
@@ -132,7 +132,7 @@ export default function PickingPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold">Picking — Pedido #{conferencia.pedido_venda_id}</h1>
-          <p className="text-sm text-gray-500 mt-0.5">Conferência #{conferencia_id}</p>
+          <p className="text-sm text-muted mt-0.5">Conferência #{conferencia_id}</p>
         </div>
         {concluido && (
           <span className="badge-green text-base px-4 py-1">✓ Concluído</span>
@@ -181,7 +181,7 @@ export default function PickingPage() {
               OK
             </button>
           </div>
-          <p className="text-xs text-gray-400 mt-2 text-center">
+          <p className="text-xs text-muted mt-2 text-center">
             O campo captura automaticamente a leitura do scanner. Não precisa clicar.
           </p>
         </form>
@@ -190,7 +190,7 @@ export default function PickingPage() {
       {/* Lista de itens */}
       <div className="card overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 border-b">
+          <thead className="bg-page border-b">
             <tr>
               <th className="text-left p-3 font-medium text-gray-600">Produto</th>
               <th className="text-center p-3 font-medium text-gray-600">Esperado</th>
@@ -200,10 +200,10 @@ export default function PickingPage() {
           </thead>
           <tbody>
             {conferencia.itens.map((item) => (
-              <tr key={item.id} className="border-b last:border-0 hover:bg-gray-50">
+              <tr key={item.id} className="border-b last:border-0 hover:bg-page">
                 <td className="p-3">
                   <p className="font-medium">{item.produto?.descricao || `Produto #${item.produto_id}`}</p>
-                  <p className="text-xs text-gray-400">{item.produto?.codigo}</p>
+                  <p className="text-xs text-muted">{item.produto?.codigo}</p>
                 </td>
                 <td className="p-3 text-center font-mono">{item.quantidade_esperada}</td>
                 <td className="p-3 text-center font-mono font-bold">{item.quantidade_conferida}</td>

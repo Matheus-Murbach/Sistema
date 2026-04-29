@@ -108,24 +108,24 @@ export default function RetornoLotePage() {
     }
   }
 
-  if (!lote) return <div className="text-gray-400">Carregando...</div>;
+  if (!lote) return <div className="text-muted">Carregando...</div>;
 
   const itensPendentes = (lote.itens ?? []).filter((it) => !it.retornado);
 
   return (
     <div className="max-w-2xl">
       <div className="flex items-center gap-3 mb-6">
-        <a href={`/beneficiamento/${id}`} className="text-gray-400 hover:text-gray-600">
+        <a href={`/beneficiamento/${id}`} className="text-muted hover:text-gray-600">
           <ChevronLeft size={20} />
         </a>
         <div>
           <h1 className="text-2xl font-bold">Registrar Retorno</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{lote.numero} — {lote.tipo_beneficiamento || "Beneficiamento"}</p>
+          <p className="text-sm text-muted mt-0.5">{lote.numero} — {lote.tipo_beneficiamento || "Beneficiamento"}</p>
         </div>
       </div>
 
       {itensPendentes.length === 0 && (
-        <div className="card p-8 text-center text-gray-400">
+        <div className="card p-8 text-center text-muted">
           Todos os itens deste lote já foram retornados.
         </div>
       )}
@@ -170,17 +170,17 @@ export default function RetornoLotePage() {
               const itemLote = itensPendentes.find((it) => it.id === itemForm.item_id)!;
               const maxRetorno = Number(itemLote.quantidade_enviada);
               return (
-                <div key={itemForm.item_id} className="p-4 bg-gray-50 rounded-lg space-y-3">
+                <div key={itemForm.item_id} className="p-4 bg-page rounded-lg space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-medium text-sm">{nomeProduto(itemLote.produto_enviado_id)}</p>
                       {itemLote.produto_retorno_id && (
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-muted">
                           → Retorna como: {nomeProduto(itemLote.produto_retorno_id)}
                         </p>
                       )}
                     </div>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-muted">
                       Enviado: <strong>{maxRetorno.toLocaleString("pt-BR")}</strong>
                     </span>
                   </div>
@@ -218,7 +218,7 @@ export default function RetornoLotePage() {
 
                   {/* Indicador de perda */}
                   {parseFloat(itemForm.quantidade_retornada) + parseFloat(itemForm.quantidade_rejeitada) < maxRetorno && (
-                    <p className="text-xs text-orange-600">
+                    <p className="text-xs text-tax-icms">
                       ⚠ Perda de{" "}
                       {(maxRetorno - parseFloat(itemForm.quantidade_retornada || "0") - parseFloat(itemForm.quantidade_rejeitada || "0")).toLocaleString("pt-BR")}{" "}
                       unidades não contabilizada

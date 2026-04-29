@@ -51,7 +51,7 @@ export default function EstoquePage() {
             key={t}
             onClick={() => setTab(t)}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-              tab === t ? "border-primary-hover text-primary-dark" : "border-transparent text-gray-500 hover:text-gray-700"
+              tab === t ? "border-primary-hover text-primary-dark" : "border-transparent text-muted hover:text-gray-700"
             }`}
           >
             {t === "pronta" ? `Pronta Entrega (${prontaEntrega.length})` : `Alertas (${alertas.length})`}
@@ -62,7 +62,7 @@ export default function EstoquePage() {
       {tab === "pronta" && (
         <>
           <div className="relative mb-4">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
             <input
               className="input pl-9"
               placeholder="Buscar por código ou descrição..."
@@ -72,7 +72,7 @@ export default function EstoquePage() {
           </div>
           <div className="card overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b">
+              <thead className="bg-page border-b">
                 <tr>
                   <th className="text-left p-3 font-medium text-gray-600">Código</th>
                   <th className="text-left p-3 font-medium text-gray-600">Descrição</th>
@@ -81,7 +81,7 @@ export default function EstoquePage() {
               </thead>
               <tbody>
                 {prontaEntrega.map((item) => (
-                  <tr key={item.produto_id} className="border-b last:border-0 hover:bg-gray-50">
+                  <tr key={item.produto_id} className="border-b last:border-0 hover:bg-page">
                     <td className="p-3 font-mono text-xs">{item.codigo}</td>
                     <td className="p-3">{item.descricao}</td>
                     <td className="p-3 text-right font-bold text-success-dark">
@@ -90,7 +90,7 @@ export default function EstoquePage() {
                   </tr>
                 ))}
                 {prontaEntrega.length === 0 && (
-                  <tr><td colSpan={3} className="p-8 text-center text-gray-400">Nenhum item disponível</td></tr>
+                  <tr><td colSpan={3} className="p-8 text-center text-muted">Nenhum item disponível</td></tr>
                 )}
               </tbody>
             </table>
@@ -101,7 +101,7 @@ export default function EstoquePage() {
       {tab === "alertas" && (
         <div className="card overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b">
+            <thead className="bg-page border-b">
               <tr>
                 <th className="text-left p-3 font-medium text-gray-600">Código</th>
                 <th className="text-left p-3 font-medium text-gray-600">Descrição</th>
@@ -112,16 +112,16 @@ export default function EstoquePage() {
             </thead>
             <tbody>
               {alertas.map((a) => (
-                <tr key={a.produto_id} className="border-b last:border-0 hover:bg-gray-50">
+                <tr key={a.produto_id} className="border-b last:border-0 hover:bg-page">
                   <td className="p-3 font-mono text-xs">{a.codigo}</td>
                   <td className="p-3">{a.descricao}</td>
                   <td className="p-3 text-right text-danger font-bold">{a.estoque_atual}</td>
-                  <td className="p-3 text-right text-gray-500">{a.estoque_minimo}</td>
+                  <td className="p-3 text-right text-muted">{a.estoque_minimo}</td>
                   <td className="p-3 text-right text-danger-dark font-bold">-{a.deficit}</td>
                 </tr>
               ))}
               {alertas.length === 0 && (
-                <tr><td colSpan={5} className="p-8 text-center text-gray-400">
+                <tr><td colSpan={5} className="p-8 text-center text-muted">
                   Nenhum alerta de estoque mínimo
                 </td></tr>
               )}
