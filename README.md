@@ -76,6 +76,41 @@ frontend/
     expedicao/      Emissão NF-e de saída
 ```
 
+## Desenvolvimento
+
+### Rodando os testes
+
+```bash
+cd backend
+pip install -r requirements-test.txt
+
+pytest                                        # todos os testes
+pytest tests/unit/                            # só unitários (sem banco, sem rede)
+pytest tests/integration/                     # só integração (SQLite in-memory)
+pytest --cov=app --cov-report=term-missing    # cobertura com linhas faltantes
+pytest --cov=app --cov-report=html            # relatório HTML em htmlcov/
+```
+
+> Os testes de integração usam SQLite in-memory — não é necessário Docker ou PostgreSQL para rodar.
+
+### Variáveis de ambiente
+
+| Variável | Descrição | Exemplo / Padrão |
+|----------|-----------|-----------------|
+| `DATABASE_URL` | URL do PostgreSQL (async) | `postgresql+asyncpg://user:pass@localhost/sistema` |
+| `REDIS_URL` | URL do Redis | `redis://localhost:6379/0` |
+| `SECRET_KEY` | Chave de assinatura JWT (mín. 32 chars) | `openssl rand -hex 32` |
+| `EMPRESA_UF` | UF do emitente (afeta ICMS interestadual e CFOP) | `SP` |
+| `EMPRESA_CRT` | Regime tributário: `1`=Simples, `3`=Lucro Presumido/Real | `3` |
+| `EMPRESA_CNPJ` | CNPJ da empresa emitente (sem formatação) | `12345678000199` |
+| `EMPRESA_NOME` | Razão social da empresa | — |
+| `EMPRESA_IE` | Inscrição Estadual | — |
+| `FOCUS_NFE_URL` | URL da API Focus NF-e | `https://homologacao.focusnfe.com.br` |
+| `FOCUS_NFE_TOKEN` | Token de acesso à API Focus | — |
+| `IBPT_TOKEN` | Token da API IBPT (alíquotas por NCM) | — |
+| `IBPT_CNPJ` | CNPJ usado na consulta IBPT (sem formatação) | — |
+| `DEBUG` | Ativa log de SQL no console | `false` |
+
 ## Pontos de atenção fiscal
 
 - **ICMS-ST**: produtos com MVA precisam de CST correto e % MVA cadastrado
